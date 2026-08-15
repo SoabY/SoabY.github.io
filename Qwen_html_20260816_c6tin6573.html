@@ -1,0 +1,839 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<meta name="theme-color" content="#0d1117">
+<title>Слаботочка PRO — справочник слаботочных систем</title>
+<link rel="manifest" href='data:application/json,{"name":"Слаботочка PRO","short_name":"Слаботочка","display":"standalone","background_color":"%230d1117","theme_color":"%230d1117"}'>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Russo+One&family=Golos+Text:wght@400;500;600;800&family=JetBrains+Mono:wght@400;700&display=swap" rel="stylesheet">
+<style>
+:root{
+  --bg:#0d1117; --panel:#151b26; --panel2:#1b2330; --line:rgba(150,175,210,.13);
+  --txt:#e9eef6; --mut:#93a1b8; --acc:#ffb340; --acc2:#41c7ff;
+  --red:#ff5d4d; --grn:#35e0a1;
+  --r:14px;
+}
+*{margin:0;padding:0;box-sizing:border-box;-webkit-tap-highlight-color:transparent}
+html,body{height:100%}
+body{background:#070a0f;color:var(--txt);font-family:'Golos Text',system-ui,sans-serif;font-size:15px;line-height:1.5;overflow:hidden}
+body::before{content:"";position:fixed;inset:0;background-image:
+  linear-gradient(rgba(90,130,190,.05) 1px,transparent 1px),
+  linear-gradient(90deg,rgba(90,130,190,.05) 1px,transparent 1px);
+  background-size:34px 34px;pointer-events:none}
+.bgfx{position:fixed;inset:0;width:100%;height:100%;z-index:0;opacity:.5;pointer-events:none}
+.bgfx path{fill:none;stroke-width:1.5;stroke-dasharray:4 10;animation:trace 9s linear infinite}
+@keyframes trace{to{stroke-dashoffset:-280}}
+.wrap{position:relative;z-index:1;height:100dvh;display:flex;align-items:center;justify-content:center}
+.phone{position:relative;width:100%;height:100%;background:var(--bg);display:flex;flex-direction:column;overflow:hidden}
+@media (min-width:560px){
+  body{overflow:auto}
+  .wrap{padding:26px}
+  .phone{width:min(430px,100%);height:min(920px,calc(100dvh - 52px));border-radius:34px;border:1px solid #232c3b;
+    box-shadow:0 50px 140px rgba(0,0,0,.65),0 0 0 8px #0a0d12,0 0 0 9px #1c2431}
+}
+/* status bar */
+.sbar{height:28px;flex:none;display:flex;align-items:center;justify-content:space-between;padding:0 16px;font-family:'JetBrains Mono',monospace;font-size:11px;color:#c7d3e4}
+.sbar svg{display:block}
+/* app bar */
+.abar{flex:none;display:flex;align-items:center;gap:10px;padding:8px 14px 10px;border-bottom:1px solid var(--line)}
+.logo{width:38px;height:38px;flex:none;border-radius:11px;background:linear-gradient(140deg,#ff7a3d,#ffb340);display:flex;align-items:center;justify-content:center;box-shadow:0 4px 16px rgba(255,150,50,.35)}
+.brand{line-height:1.05}
+.brand b{font-family:'Russo One',sans-serif;font-size:16px;letter-spacing:.5px;display:block}
+.brand span{font-size:10.5px;color:var(--mut);letter-spacing:.14em;text-transform:uppercase}
+.abar .sp{flex:1}
+.abtn{width:38px;height:38px;border:none;border-radius:11px;background:var(--panel2);color:#c7d3e4;display:flex;align-items:center;justify-content:center;cursor:pointer;position:relative;transition:transform .15s, background .2s}
+.abtn:active{transform:scale(.92)}
+.favcount{position:absolute;top:-4px;right:-4px;min-width:16px;height:16px;border-radius:8px;background:var(--red);color:#fff;font-size:9.5px;font-weight:800;display:flex;align-items:center;justify-content:center;padding:0 4px;font-family:'JetBrains Mono',monospace}
+/* main */
+main{flex:1;overflow-y:auto;overflow-x:hidden;scrollbar-width:thin;scrollbar-color:#2b3547 transparent;position:relative}
+main::-webkit-scrollbar{width:3px}main::-webkit-scrollbar-thumb{background:#2b3547}
+.screen{display:none;padding:14px 14px 22px;animation:scrin .28s ease both}
+.screen.on{display:block}
+@keyframes scrin{from{opacity:0;transform:translateY(10px)}}
+h2.sec{font-family:'Russo One',sans-serif;font-size:17px;letter-spacing:.4px;margin:18px 2px 10px;display:flex;align-items:center;gap:8px}
+h2.sec::before{content:"";width:4px;height:16px;border-radius:2px;background:var(--acc)}
+h2.sec small{font-family:'Golos Text';font-weight:400;font-size:11px;color:var(--mut);letter-spacing:0}
+/* home */
+.hello{background:linear-gradient(150deg,#1b2330,#151b26 60%);border:1px solid var(--line);border-radius:var(--r);padding:14px;margin-bottom:12px;position:relative;overflow:hidden}
+.hello::after{content:"";position:absolute;right:-30px;top:-30px;width:120px;height:120px;border-radius:50%;background:radial-gradient(circle,rgba(255,179,64,.16),transparent 70%)}
+.hello .date{font-family:'JetBrains Mono',monospace;font-size:11px;color:var(--acc);letter-spacing:.08em}
+.hello h1{font-family:'Russo One',sans-serif;font-size:19px;margin:3px 0 4px}
+.hello p{font-size:12.5px;color:var(--mut)}
+.searchbar{display:flex;align-items:center;gap:10px;background:var(--panel2);border:1px solid var(--line);border-radius:13px;padding:11px 14px;margin-bottom:14px;color:var(--mut);cursor:pointer;font-size:13.5px;transition:border-color .2s}
+.searchbar:active{border-color:var(--acc)}
+.tiles{display:grid;grid-template-columns:1fr 1fr;gap:10px}
+.tile{position:relative;background:var(--panel);border:1px solid var(--line);border-radius:var(--r);padding:13px 12px;cursor:pointer;overflow:hidden;transition:transform .15s,border-color .2s;animation:rise .45s ease both}
+.tile:active{transform:scale(.965)}
+.tile::before{content:"";position:absolute;inset:0 0 auto 0;height:3px;background:var(--c);opacity:.9}
+.ticon{width:36px;height:36px;border-radius:10px;display:flex;align-items:center;justify-content:center;margin-bottom:8px;color:var(--c);background:color-mix(in srgb,var(--c) 14%,transparent);border:1px solid color-mix(in srgb,var(--c) 30%,transparent)}
+.tile b{display:block;font-size:13.5px;line-height:1.25;margin-bottom:2px}
+.tile span{font-size:10.5px;color:var(--mut);font-family:'JetBrains Mono',monospace}
+@keyframes rise{from{opacity:0;transform:translateY(12px)}}
+/* marquee */
+.mq{overflow:hidden;border:1px solid var(--line);border-radius:12px;background:#11161f;margin-bottom:14px;position:relative}
+.mq::before,.mq::after{content:"";position:absolute;top:0;bottom:0;width:26px;z-index:2}
+.mq::before{left:0;background:linear-gradient(90deg,#11161f,transparent)}
+.mq::after{right:0;background:linear-gradient(-90deg,#11161f,transparent)}
+.mqtrack{display:flex;gap:22px;width:max-content;padding:9px 0;animation:mq 46s linear infinite;font-size:12px;color:#c7d3e4;white-space:nowrap}
+.mqtrack i{font-style:normal;color:var(--acc);font-family:'JetBrains Mono',monospace}
+@keyframes mq{to{transform:translateX(-50%)}}
+/* quick tools */
+.qrow{display:flex;gap:8px;overflow-x:auto;padding-bottom:4px;scrollbar-width:none}
+.qrow::-webkit-scrollbar{display:none}
+.qchip{flex:none;display:flex;align-items:center;gap:7px;background:var(--panel2);border:1px solid var(--line);color:var(--txt);border-radius:20px;padding:8px 13px;font-size:12.5px;font-family:'Golos Text';cursor:pointer;transition:transform .15s}
+.qchip:active{transform:scale(.94)}
+.qchip .d{width:8px;height:8px;border-radius:50%}
+/* systems list */
+.sysrow{display:flex;align-items:center;gap:12px;background:var(--panel);border:1px solid var(--line);border-radius:var(--r);padding:12px;margin-bottom:9px;cursor:pointer;transition:transform .15s,border-color .2s}
+.sysrow:active{transform:scale(.98)}
+.sysrow .ticon{margin:0;width:42px;height:42px}
+.sysrow .txt{flex:1;min-width:0}
+.sysrow b{display:block;font-size:14px}
+.sysrow p{font-size:11px;color:var(--mut);font-family:'JetBrains Mono',monospace}
+.sysrow .arr{color:var(--mut)}
+/* detail */
+.hero{border-radius:var(--r);padding:16px 15px;margin-bottom:12px;border:1px solid var(--line);position:relative;overflow:hidden}
+.hero .hicon{width:44px;height:44px;border-radius:12px;display:flex;align-items:center;justify-content:center;margin-bottom:9px}
+.hero h1{font-family:'Russo One',sans-serif;font-size:19px;line-height:1.2}
+.hero p{font-size:12px;opacity:.85;margin-top:3px}
+.normchips{display:flex;flex-wrap:wrap;gap:6px;margin-top:10px}
+.nchip{font-size:10.5px;font-family:'JetBrains Mono',monospace;background:rgba(0,0,0,.28);border:1px solid rgba(255,255,255,.14);padding:3px 8px;border-radius:7px}
+.backbtn{display:inline-flex;align-items:center;gap:6px;background:none;border:none;color:var(--mut);font-family:'Golos Text';font-size:13px;cursor:pointer;margin-bottom:10px;padding:4px 2px}
+.tabs{display:flex;gap:6px;overflow-x:auto;margin-bottom:13px;scrollbar-width:none;position:sticky;top:-14px;background:var(--bg);padding:8px 0;z-index:5}
+.tabs::-webkit-scrollbar{display:none}
+.tab{flex:none;border:1px solid var(--line);background:var(--panel2);color:var(--mut);font-family:'Golos Text';font-weight:600;font-size:12.5px;border-radius:20px;padding:7px 14px;cursor:pointer;transition:all .2s}
+.tab.on{background:var(--c,var(--acc));border-color:transparent;color:#0d1117}
+.tpanel{display:none}.tpanel.on{display:block;animation:scrin .25s ease both}
+/* cards */
+.card{background:var(--panel);border:1px solid var(--line);border-radius:var(--r);padding:13px 14px;margin-bottom:11px}
+.card.flash{animation:flash 1.6s ease}
+@keyframes flash{0%,60%{box-shadow:0 0 0 2px var(--acc);border-color:var(--acc)}100%{box-shadow:none}}
+.chead{display:flex;align-items:flex-start;gap:8px;margin-bottom:8px}
+.chead h3{font-size:14.5px;font-weight:800;flex:1;line-height:1.3}
+.favbtn{flex:none;width:30px;height:30px;border:none;background:var(--panel2);border-radius:9px;color:#5b6a80;display:flex;align-items:center;justify-content:center;cursor:pointer;transition:transform .15s,color .2s}
+.favbtn.on{color:var(--red)}
+.favbtn.pop{animation:pop .35s ease}
+@keyframes pop{40%{transform:scale(1.3)}}
+.cbody{font-size:13.5px;color:#cbd5e3}
+.cbody p{margin-bottom:8px}
+.cbody p:last-child{margin-bottom:0}
+.ul{padding-left:18px;margin:4px 0 8px}
+.ul li{margin-bottom:5px}
+.ul li::marker{color:var(--acc)}
+.mono{font-family:'JetBrains Mono',monospace;font-size:.92em}
+/* tables */
+.tblwrap{overflow-x:auto;margin:6px 0 10px;border:1px solid var(--line);border-radius:10px}
+table{width:100%;border-collapse:collapse;font-size:12px;min-width:280px}
+th{font-family:'JetBrains Mono',monospace;font-size:10px;text-transform:uppercase;letter-spacing:.08em;color:var(--mut);text-align:left;padding:7px 9px;background:#11161f}
+td{padding:7px 9px;border-top:1px dashed var(--line);vertical-align:top}
+tr:hover td{background:rgba(255,255,255,.02)}
+/* callouts */
+.co{border-radius:10px;padding:9px 11px;font-size:12.5px;margin:8px 0;border-left:3px solid}
+.co.norm{background:rgba(65,199,255,.08);border-color:var(--acc2)}
+.co.warn{background:rgba(255,179,64,.09);border-color:var(--acc)}
+.co.err{background:rgba(255,93,77,.09);border-color:var(--red)}
+.co.tip{background:rgba(53,224,161,.08);border-color:var(--grn)}
+.co b{display:block;font-size:10.5px;text-transform:uppercase;letter-spacing:.1em;margin-bottom:2px}
+.co.norm b{color:var(--acc2)}.co.warn b{color:var(--acc)}.co.err b{color:var(--red)}.co.tip b{color:var(--grn)}
+.errlist{counter-reset:e;list-style:none;padding:0}
+.errlist li{counter-increment:e;position:relative;padding:8px 0 8px 34px;border-top:1px dashed var(--line);font-size:13px}
+.errlist li:first-child{border-top:none}
+.errlist li::before{content:counter(e);position:absolute;left:0;top:8px;width:24px;height:24px;border-radius:8px;background:rgba(255,93,77,.15);color:var(--red);font-family:'JetBrains Mono',monospace;font-size:11px;font-weight:700;display:flex;align-items:center;justify-content:center}
+/* schemes */
+.schfilter{display:flex;gap:6px;overflow-x:auto;padding-bottom:8px;scrollbar-width:none}
+.schfilter::-webkit-scrollbar{display:none}
+.scheme{border-top:1px solid var(--line);padding-top:10px;margin-top:4px}
+.scheme:first-of-type{border-top:none;padding-top:0;margin-top:0}
+.schmeta{display:flex;align-items:center;gap:8px;margin-bottom:4px}
+.schtag{font-size:10px;font-family:'JetBrains Mono',monospace;padding:3px 8px;border-radius:6px;border:1px solid;font-weight:700}
+.svgwrap{background:#0b0f16;border:1px solid var(--line);border-radius:12px;padding:8px;overflow-x:auto}
+.svgwrap svg{width:100%;min-width:320px;display:block}
+.svgwrap text{font-family:'Golos Text',sans-serif}
+.blk{fill:#1a2432;stroke:#33415a;stroke-width:1}
+.blkt{fill:#e4ebf5;font-size:8.5px;font-weight:700}
+.mut{fill:#8fa0b8;font-size:6.8px}
+.lbl{fill:#c7d3e4;font-size:7.2px;font-weight:600}
+.wire{fill:none;stroke-width:2;stroke-linecap:round}
+.flow{fill:none;stroke:rgba(255,255,255,.85);stroke-width:2;stroke-linecap:round;stroke-dasharray:2 9;animation:fl 1.5s linear infinite}
+@keyframes fl{to{stroke-dashoffset:-44}}
+.led{animation:blink 1.4s ease infinite}
+@keyframes blink{0%,100%{opacity:1}50%{opacity:.15}}
+.schcap{font-size:11.5px;color:var(--mut);margin-top:7px}
+/* calc */
+.calc{background:var(--panel);border:1px solid var(--line);border-radius:var(--r);padding:14px;margin-bottom:12px}
+.calc h3{font-size:14px;font-weight:800;margin-bottom:3px;display:flex;align-items:center;gap:8px}
+.calc .sub{font-size:11.5px;color:var(--mut);margin-bottom:11px}
+.frow{display:flex;gap:8px;margin-bottom:8px}
+.fld{flex:1;min-width:0}
+.fld label{display:block;font-size:10.5px;color:var(--mut);margin-bottom:3px;font-family:'JetBrains Mono',monospace;text-transform:uppercase;letter-spacing:.05em}
+.fld input,.fld select{width:100%;background:#10151f;border:1px solid var(--line);border-radius:9px;color:var(--txt);font-family:'JetBrains Mono',monospace;font-size:13.5px;padding:8px 9px;outline:none;transition:border-color .2s}
+.fld input:focus,.fld select:focus{border-color:var(--acc)}
+.presets{display:flex;flex-wrap:wrap;gap:6px;margin-bottom:9px}
+.presets button{background:#10151f;border:1px solid var(--line);color:#aab8cc;font-size:11px;border-radius:14px;padding:5px 10px;font-family:'Golos Text';cursor:pointer}
+.presets button:active{border-color:var(--acc);color:var(--txt)}
+.res{background:#10151f;border:1px solid var(--line);border-radius:10px;padding:10px 12px;font-size:13px;margin-top:4px}
+.res .big{font-family:'JetBrains Mono',monospace;font-size:19px;font-weight:700;color:var(--acc)}
+.res .row{display:flex;justify-content:space-between;padding:3px 0;font-size:12px;color:#c0cddd}
+.res .row b{font-family:'JetBrains Mono',monospace;color:var(--txt)}
+.verdict{margin-top:6px;font-size:12px;font-weight:600;padding:6px 9px;border-radius:8px}
+.v-ok{background:rgba(53,224,161,.12);color:var(--grn)}
+.v-md{background:rgba(255,179,64,.13);color:var(--acc)}
+.v-bad{background:rgba(255,93,77,.13);color:var(--red)}
+/* info */
+.gloss dt{font-weight:800;color:var(--acc);font-size:13px;margin-top:8px}
+.gloss dd{font-size:12.5px;color:#c3cfdc;margin-left:0}
+.favitem{display:flex;align-items:center;gap:10px;padding:9px 4px;border-top:1px dashed var(--line);cursor:pointer;font-size:13px}
+.favitem:first-child{border-top:none}
+.favitem .dot{width:8px;height:8px;border-radius:50%;flex:none}
+.favitem .t{flex:1;min-width:0;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+.favitem .rm{color:var(--mut);border:none;background:none;cursor:pointer;font-size:15px;padding:4px}
+.empty{font-size:12.5px;color:var(--mut);padding:8px 2px}
+/* search overlay */
+.searchov{position:absolute;inset:0;background:rgba(7,10,15,.75);backdrop-filter:blur(3px);z-index:40;display:none;flex-direction:column}
+.searchov.on{display:flex;animation:scrin .2s ease}
+.spanel{margin:14px;background:var(--panel);border:1px solid var(--line);border-radius:16px;display:flex;flex-direction:column;max-height:calc(100% - 90px);overflow:hidden;animation:rise .25s ease}
+.shead{display:flex;align-items:center;gap:8px;padding:12px;border-bottom:1px solid var(--line)}
+.shead input{flex:1;background:#10151f;border:1px solid var(--line);border-radius:10px;padding:10px 12px;color:var(--txt);font-family:'Golos Text';font-size:14px;outline:none}
+.shead input:focus{border-color:var(--acc)}
+.sres{overflow-y:auto;padding:6px}
+.sitem{padding:10px 10px;border-radius:10px;cursor:pointer}
+.sitem:active{background:#1b2330}
+.sitem b{display:block;font-size:13.5px}
+.sitem span{font-size:11.5px;color:var(--mut);display:block;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+.sitem .tag{font-size:9.5px;font-family:'JetBrains Mono',monospace;color:var(--acc);text-transform:uppercase;letter-spacing:.08em}
+.sitem mark{background:none;color:var(--acc);font-weight:800}
+/* bottom nav */
+.bnav{flex:none;display:flex;border-top:1px solid var(--line);background:#10151f;padding:6px 6px calc(6px + env(safe-area-inset-bottom))}
+.nbtn{flex:1;border:none;background:none;color:#69788f;display:flex;flex-direction:column;align-items:center;gap:3px;font-family:'Golos Text';font-size:9.5px;font-weight:600;cursor:pointer;padding:6px 0;border-radius:12px;position:relative;transition:color .2s}
+.nbtn .nb-ic{width:38px;height:26px;border-radius:13px;display:flex;align-items:center;justify-content:center;transition:background .25s,transform .2s}
+.nbtn.on{color:var(--acc)}
+.nbtn.on .nb-ic{background:rgba(255,179,64,.14);transform:translateY(-1px)}
+.ripple{position:absolute;border-radius:50%;background:rgba(255,255,255,.25);transform:scale(0);animation:rip .5s ease-out forwards;pointer-events:none}
+@keyframes rip{to{transform:scale(3);opacity:0}}
+.toast{position:absolute;left:50%;bottom:86px;transform:translateX(-50%) translateY(20px);background:#1b2330;border:1px solid var(--line);color:var(--txt);font-size:12.5px;padding:9px 16px;border-radius:22px;opacity:0;pointer-events:none;transition:all .3s;z-index:60;white-space:nowrap}
+.toast.on{opacity:1;transform:translateX(-50%) translateY(0)}
+.rv{opacity:0}
+.rv.in{animation:rise .5s ease forwards}
+footer.appfoot{text-align:center;font-size:10.5px;color:#5b6a80;padding:18px 10px 6px;font-family:'JetBrains Mono',monospace}
+</style>
+</head>
+<body>
+<svg class="bgfx" viewBox="0 0 800 900" preserveAspectRatio="xMidYMid slice">
+  <path d="M-20 120 H240 L290 170 H820" stroke="rgba(255,179,64,.35)"/>
+  <path d="M-20 700 H180 L240 640 H500 L560 700 H830" stroke="rgba(65,199,255,.3)"/>
+  <path d="M620 -20 V220 L680 280 V920" stroke="rgba(192,139,250,.28)"/>
+</svg>
+
+<div class="wrap">
+<div class="phone" id="phone">
+
+  <div class="sbar">
+    <span id="clock">--:--</span>
+    <span style="display:flex;gap:6px;align-items:center">
+      <svg width="15" height="11" viewBox="0 0 15 11"><rect x="0" y="7" width="2.5" height="4" fill="#c7d3e4"/><rect x="4" y="5" width="2.5" height="6" fill="#c7d3e4"/><rect x="8" y="3" width="2.5" height="8" fill="#c7d3e4"/><rect x="12" y="1" width="2.5" height="10" fill="#5b6a80"/></svg>
+      <svg width="15" height="11" viewBox="0 0 16 12"><path d="M8 11 L1 4.5 A10 10 0 0 1 15 4.5 Z" fill="#c7d3e4"/></svg>
+      <svg width="22" height="11" viewBox="0 0 22 11"><rect x=".5" y=".5" width="18" height="10" rx="2.5" fill="none" stroke="#c7d3e4"/><rect x="2.5" y="2.5" width="12" height="6" rx="1" fill="#35e0a1"/><rect x="19.5" y="3.5" width="2" height="4" rx="1" fill="#c7d3e4"/></svg>
+    </span>
+  </div>
+
+  <header class="abar">
+    <div class="logo"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="#12100a" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M13 2 5 13h6l-1 9 9-12h-6l1-8z" fill="#12100a"/></svg></div>
+    <div class="brand"><b>СЛАБОТОЧКА&nbsp;PRO</b><span>справочник СС · офлайн</span></div>
+    <div class="sp"></div>
+    <button class="abtn rp" id="btnSearch" aria-label="Поиск"><svg width="19" height="19" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><circle cx="11" cy="11" r="7"/><path d="m21 21-4.3-4.3"/></svg></button>
+    <button class="abtn rp" id="btnFavTop" aria-label="Избранное"><svg width="19" height="19" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linejoin="round"><path d="M12 21C7 16.5 3 13.3 3 9.3 3 6.4 5.2 4 8 4c1.6 0 3.1.8 4 2 .9-1.2 2.4-2 4-2 2.8 0 5 2.4 5 5.3 0 4-4 7.2-9 11.7z"/></svg><span class="favcount" id="favcount" style="display:none">0</span></button>
+  </header>
+
+  <main id="main">
+    <section class="screen on" id="scr-home"></section>
+    <section class="screen" id="scr-systems"></section>
+    <section class="screen" id="scr-detail"></section>
+    <section class="screen" id="scr-schemes"></section>
+    <section class="screen" id="scr-calc"></section>
+    <section class="screen" id="scr-info"></section>
+  </main>
+
+  <div class="searchov" id="searchov">
+    <div class="spanel">
+      <div class="shead">
+        <input id="sinput" type="search" placeholder="Поиск: датчик, кабель, СП 484, Wiegand…" autocomplete="off">
+        <button class="abtn rp" id="btnSrchClose"><svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round"><path d="M6 6l12 12M18 6 6 18"/></svg></button>
+      </div>
+      <div class="sres" id="sres"><div class="empty" style="padding:14px">Введите запрос — ищем по всем разделам, схемам и нормам.</div></div>
+    </div>
+  </div>
+
+  <nav class="bnav" id="bnav">
+    <button class="nbtn rp on" data-scr="home"><span class="nb-ic"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linejoin="round"><path d="M3 11 12 3l9 8v9a1 1 0 0 1-1 1h-5v-6h-6v6H4a1 1 0 0 1-1-1z"/></svg></span>Главная</button>
+    <button class="nbtn rp" data-scr="systems"><span class="nb-ic"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9"><rect x="3" y="3" width="8" height="8" rx="2"/><rect x="13" y="3" width="8" height="8" rx="2"/><rect x="3" y="13" width="8" height="8" rx="2"/><rect x="13" y="13" width="8" height="8" rx="2"/></svg></span>Системы</button>
+    <button class="nbtn rp" data-scr="schemes"><span class="nb-ic"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round"><path d="M4 7h6M4 12h10M4 17h6M14 7h6M18 12h2M14 17h6"/><circle cx="12" cy="7" r="1.6"/><circle cx="16" cy="12" r="1.6"/><circle cx="12" cy="17" r="1.6"/></svg></span>Схемы</button>
+    <button class="nbtn rp" data-scr="calc"><span class="nb-ic"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9"><rect x="5" y="2.5" width="14" height="19" rx="2.5"/><path d="M8.5 7h7M8.5 11.5h.01M12 11.5h.01M15.5 11.5h.01M8.5 15h.01M12 15h.01M15.5 15h.01M8.5 18.5h.01M12 18.5h.01M15.5 18.5h.01" stroke-linecap="round"/></svg></span>Расчёт</button>
+    <button class="nbtn rp" data-scr="info"><span class="nb-ic"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linejoin="round"><path d="M4 4.5A2.5 2.5 0 0 1 6.5 2H20v20H6.5A2.5 2.5 0 0 1 4 19.5z"/><path d="M4 19.5A2.5 2.5 0 0 1 6.5 17H20"/></svg></span>Инфо</button>
+  </nav>
+
+  <div class="toast" id="toast"></div>
+</div>
+</div>
+
+<script>
+/* ============ ИКОНКИ СИСТЕМ ============ */
+const IC = {
+flame:'<svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linejoin="round"><path d="M12 22c4.4 0 7-2.9 7-6.6 0-2.8-1.7-4.9-3.2-6.6-.8-.9-2.1-.3-2.1 1v.9c0 .9-1 1.4-1.7.9C10.5 10.5 9 8.6 9 6.2c0-1.3-1.6-2-2.5-1C4.8 7 5 10.6 5 12.5 5 18 7.6 22 12 22z"/></svg>',
+horn:'<svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linejoin="round"><path d="M3 10v4a1 1 0 0 0 1 1h3l6 4V5L7 9H4a1 1 0 0 0-1 1z"/><path d="M17 9a4.2 4.2 0 0 1 0 6M20 6.5a8 8 0 0 1 0 11" stroke-linecap="round"/></svg>',
+drop:'<svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linejoin="round"><path d="M12 2.7s6.5 7 6.5 11.3a6.5 6.5 0 0 1-13 0C5.5 9.7 12 2.7 12 2.7z"/><path d="M9 14a3 3 0 0 0 3 3" stroke-linecap="round"/></svg>',
+wind:'<svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round"><path d="M3 8h9a3 3 0 1 0-3-3M3 12h14a3 3 0 1 1-3 3M3 16h6a2.5 2.5 0 1 1-2.5 2.5"/></svg>',
+shield:'<svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linejoin="round"><path d="M12 2 4 5.5v6c0 4.7 3.4 8.2 8 10.5 4.6-2.3 8-5.8 8-10.5v-6z"/><path d="m8.8 12 2.2 2.2 4.2-4.4" stroke-linecap="round"/></svg>',
+key:'<svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round"><circle cx="8" cy="15.5" r="4.5"/><path d="m11.2 12.3 9-9M17 6l3 3M14 9l2.2 2.2"/></svg>',
+cam:'<svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linejoin="round"><rect x="2.5" y="6.5" width="14" height="9" rx="2"/><path d="m16.5 10 5-2.5v9L16.5 14"/><circle cx="7" cy="11" r="1.4"/><path d="M6 20.5h8" stroke-linecap="round"/></svg>',
+bld:'<svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linejoin="round"><path d="M3 21h18M6 21V4.5L14 3v18M14 9l5 1.5V21"/><path d="M9 8h.01M9 12h.01M9 16h.01M17 14h.01M17 17.5h.01" stroke-linecap="round"/></svg>'
+};
+const HEART='<svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linejoin="round"><path d="M12 21C7 16.5 3 13.3 3 9.3 3 6.4 5.2 4 8 4c1.6 0 3.1.8 4 2 .9-1.2 2.4-2 4-2 2.8 0 5 2.4 5 5.3 0 4-4 7.2-9 11.7z"/></svg>';
+
+/* ============ ПОМОЩНИКИ КОНТЕНТА ============ */
+const L=it=>`<ul class="ul">${it.map(i=>`<li>${i}</li>`).join('')}</ul>`;
+const T=(hd,rows)=>`<div class="tblwrap"><table><thead><tr>${hd.map(h=>`<th>${h}</th>`).join('')}</tr></thead><tbody>${rows.map(r=>`<tr>${r.map(c=>`<td>${c}</td>`).join('')}</tr>`).join('')}</tbody></table></div>`;
+const N=t=>`<div class="co norm"><b>Норма</b>${t}</div>`;
+const W=t=>`<div class="co warn"><b>Важно</b>${t}</div>`;
+const P=t=>`<div class="co tip"><b>Практика</b>${t}</div>`;
+const ERR=it=>`<ol class="errlist">${it.map(i=>`<li>${i}</li>`).join('')}</ol>`;
+function card(fid,title,body){return `<div class="card" data-fid="${fid}" data-ctitle="${title}"><div class="chead"><h3>${title}</h3><button class="favbtn rp" data-fid="${fid}" aria-label="избранное">${HEART}</button></div><div class="cbody">${body}</div></div>`;}
+
+/* ============ ДАННЫЕ СИСТЕМ ============ */
+const SYSTEMS=[
+{id:'aps',name:'Пожарная сигнализация',tag:'АПС / СПС',color:'#ff5d4d',icon:'flame',norms:['СП 484.1311500.2020','СП 6.13130.2021','ГОСТ Р 53325-2012'],tabs:[
+ {id:'base',label:'Основы',cards:[
+  ['Что такое СПС и чем она регламентируется',`<p>Система пожарной сигнализации (СПС) — комплекс средств, обнаруживающих пожар, формирующих сигнал «Пожар», управляющих оповещением, инженерными системами и автоматикой тушения.</p>${N('СП 484.1311500.2020 — основной документ по СПС и автоматизации противопожарной защиты (АУПЗ). Оборудование — ГОСТ Р 53325-2012, линии — СП 6.13130.2021.')}${L(['Состав: ПКП, автоматические извещатели (тепловые, дымовые, пламени, газовые, аспирационные), ручные ИПР, линии связи, исполнительные реле и модули, резервное питание.','Принцип: зона контроля делится на пожарные зоны; каждая зона должна быть однозначно определима прибором.','Сигнал «Пожар» обязан запускать сценарии АУПЗ: СОУЭ, дымоудаление, разблокировку СКУД, отключение вентиляции и т. д.'])}`],
+  ['Алгоритмы принятия решения А / Б / В',T(['Алгоритм','Логика','Типичное применение'],[['А','сигнал от одного извещателя без проверки','помещения, где ложная тревога некритична'],['Б','от одного извещателя с повторным запросом (проверка)','компромисс между скоростью и достоверностью'],['В','логика «И» от двух извещателей','запуск АУПТ, СОУЭ, управление инженерными системами']])+`${W('Для команд управления (пожаротушение, дымоудаление, оповещение 4–5 типа) применяется, как правило, алгоритм В — два извещателя в помещении.')}`],
+  ['Размещение точечных извещателей','<p>Дымовые точечные:</p>'+T(['h потолка, м','между датчиками','от стены'],[['до 3,5','≤ 9 м','≤ 4,5 м'],['3,5–6,0','≤ 8,5 м','≤ 4,25 м'],['6,0–10,0','≤ 8,0 м','≤ 4,0 м'],['10,0–12,0','≤ 7,5 м','≤ 3,75 м']])+'<p>Тепловые точечные:</p>'+T(['h потолка, м','между датчиками','от стены'],[['до 3,5','≤ 5,0 м','≤ 2,5 м'],['3,5–6,0','≤ 4,5 м','≤ 2,25 м'],['6,0–9,0','≤ 4,0 м','≤ 2,0 м']])+N('Значения — по таблицам СП 484.1311500.2020 для точечных извещателей. Выше 12 м или в нестандартных помещениях — линейные, аспирационные или расчёт.')+L(['От углов и стен — не менее 0,1 м.','До светильника — не менее 0,5 м.','До вентиляционной решётки/кондиционера — не менее 1 м.','На потолке — предпочтительно; при балках и лотках — правила п. 6 СП 484.']`,
+  ['ИПР, ПКП и питание',L(['ИПР — у эвакуационных выходов и на путях эвакуации, высота установки <span class="mono">1,5 м</span>, освещённое и доступное место.','ПКП — на пожарном посту или в помещении с круглосуточным пребыванием персонала; с резервом места для расширения.','РИП с АКБ: классика расчёта — <span class="mono">24 ч дежурный режим + 1 ч в режиме «Пожар»</span>.','Передача на пульт МЧС/ПЦО — по выделенной линии, радиоканалу или СПИ (GSM/Ethernet).'])]
+ ]},
+ {id:'mount',label:'Монтаж',cards:[
+  ['Кабели линий СПЗ',N('Линии систем противопожарной защиты выполняются проводами и кабелями с индексом <b>нг-FRLS или FRHF</b>, сохраняющими работоспособность в условиях пожара (испытания по ГОСТ Р 53316) — требование СП 6.13130.2021.')+T(['Линия','Типовое решение'],[['ДПЛС / шлейфы АПС','КПСнг(А)-FRLS 1×2×0,75'],['СОУЭ, табло','КПСнг(А)-FRLS 2×0,75…2×1,5'],['Питание 12/24 В','ВВГнг(А)-FRLS, КПСнг(А)-FRLS нужного сечения'],['Управление (КПБ, реле)','КВВГнг(А)-FRLS']])+`${W('ШВВП, ПВС, UTP без огнестойкости на линиях СПЗ — прямое нарушение. Типовая ошибка, которую «ловят» при приёмке.')}`],
+  ['Прокладка трасс',L(['Отступ от силовых линий ≥ 0,5 м либо раздельные лотки/короба с перегородкой.','Проходы через противопожарные преграды — гильзы и огнезаделка с нормируемым пределом огнестойкости.','Соединения — только клеммные (WAGO, винт, пайка с последующей изоляцией), в доступных местах.','Маркировка линий у прибора и на концах, бирки, исполнительная документация.','Запас кабеля на подключение — и 10 % запаса извещателей в ЗИП.')],
+  ['ДПЛС адресных систем',L(['БОЛИД С2000-КДЛ: до <span class="mono">127 адресных устройств</span> в линии, длина до <span class="mono">1000 м</span> (зависит от сечения).','Сечение жил ≥ 0,5 мм², рекомендуется 0,75 мм².','Топология произвольная; кольцевая линия повышает живучесть при обрыве.','Сопротивление линии контролируется прибором — пределы в паспорте.')+P('На ответственных объектах закладывайте кольцо или две линии на зону — один обрыв не «положит» этаж.')],
+ ]},
+ {id:'gear',label:'Оборудование',cards:[
+  ['БОЛИД (протокол ДПЛС)',T(['Назначение','Устройство'],[['Центральный контроллер','С2000М + АРМ «Орион Про»'],['Линия ДПЛС','С2000-КДЛ'],['Извещатель дымовой адресный','ДИП-34А-04'],['Извещатель ручной','ИПР-513-3АМ'],['Релейные выходы','С2000-КПБ, С2000-СП2'],['СОУЭ речевое','«Рупор»'],['АУПТ','С2000-АСПТ'],['Питание резервное','РИП-12 / РИП-24 с АКБ']])],
+  ['РУБЕЖ (протокол R3) / радиоканал',L(['Контроллер <span class="mono">RUBEZH-2ОП прот. R3</span> + адресные извещатели протокола R3: дымовые, тепловые, ручные, модули управления.','Радиоканальные системы — «Стрелец-Интеграл» и аналоги: уместны на реконструкции и исторических зданиях, где нельзя штробить.','Неадресная классика: дымовые ИП 212-й серии, ИПР 513-3, ПКП С2000-4, «Гранит», «ВЭРС-ПК».'])],
+ ]},
+ {id:'mist',label:'Ошибки',cards:[
+  ['Типовые ошибки при монтаже АПС',ERR(['Линии выполнены не огнестойким кабелем (ШВВП, ПВС, обычный UTP) — нарушение СП 6.13130.2021, предписание неизбежно.','Извещатель ближе 0,5 м к светильнику или 1 м к вентиляции — слепая зона, пыль, ложняки.','Один извещатель на помещение там, где требуется алгоритм В.','Защитные колпачки не сняты с датчиков после отделки — «забытая» плёнка на потолке.','Скрутки без клемм и без маркировки линий — невозможно обслуживать.','Нет 10 % запаса извещателей на замену.','ДПЛС в одном коробе с силовыми кабелями 220/380 В — наводки и «плавающие» неисправности.','Адресные устройства одной линии разных производителей/протоколов — не заработает.'])]
+ ]}]},
+
+{id:'soue',name:'Системы оповещения',tag:'СОУЭ',color:'#ffb340',icon:'horn',norms:['СП 3.13130.2009','СП 6.13130.2021'],tabs:[
+ {id:'base',label:'Основы',cards:[
+  ['Типы СОУЭ',T(['Тип','Состав','Где встречается'],[['1','звуковой сигнал (сирена, тон) или речь','небольшие помещения'],['2','1-й тип + световые знаки эвакуационных выходов','малые офисы, магазины'],['3','речевое оповещение + световые знаки «Выход»','самый распространённый'],['4','3-й тип + деление на зоны оповещения и обратная связь с пожарным постом','крупные здания'],['5','4-й тип + несколько сценариев эвакуации для каждой зоны','высотные и крупные комплексы']])+N('Выбор типа — по таблицам 1–2 СП 3.13130.2009 в зависимости от назначения, этажности, высоты здания и числа людей. Всегда проверяйте по таблице, а не «по аналогии».')],
+  ['Требования к звуку',L(['Уровень сигналов — не менее <span class="mono">75 дБА</span> на расстоянии 1,5 м от пола (уровень головы).','Не менее чем на 15 дБА выше уровня постоянного шума помещения.','В спальных помещениях сигналы должны обеспечивать уверенное пробуждение (обычно — речевая СОУЭ).','Речевые сообщения — понятные, без двусмысленности; допустима комбинация тон + речь.'])+P('Паркинг, цех, насосная — берите рупорные громкоговорители с двойным запасом по мощности и проверяйте шумомером.')],
+  ['Световые табло и знаки',L(['Табло «Выход» — над эвакуационными выходами на путях эвакуации.','Указатели направления — пиктограммы Е001/Е002 по ГОСТ 12.4.026 (зелёные).','Размер знака подбирается по расстоянию опознавания (см. ГОСТ 12.4.026).','Питание линий табло и знаков — по требованиям СП 6.13130.2021 (огнестойкие линии).'])],
+ ]},
+ {id:'mount',label:'Монтаж',cards:[
+  ['Линии зон оповещения',L(['Только кабели нг-FRLS; у каждой зоны — своя линия от усилителя.','Соединения в доступных коробках; ведите журнал линий с сопротивлением и длинами.','Транзитные участки через пожарные отсеки — огнезаделка.'])],
+  ['Громкоговорители',L(['Потолочные 3–6 Вт закрывают примерно 15–30 м² каждый — считайте по плану потолка.','Настенные — как правило, на высоте не менее 2,3 м от пола.','Шумные зоны — рупорные; коридоры — линейки с шагом по расчёту.','Запас мощности усилителя — не менее <span class="mono">30 %</span> на расширение и старение линии.'])],
+  ['Запуск и управление',L(['Автоматический пуск от команды «Пожар» АПС; ручной — с пожарного поста.','Приоритет — у пожарного сообщения (перебивает фоновую трансляцию, если линия общая).','Для 4–5 типа — контроль зон и обратная связь линий.'])],
+ ]},
+ {id:'gear',label:'Оборудование',cards:[
+  ['Трансляционные усилители и оповещатели',L(['100-вольтовая линия: потолочные/настенные громкоговорители 3/6/10 Вт, рупоры 15–50 Вт.','Усилители 120/240/480 Вт с приоритетным входом и генератором тона.','Комплексы: БОЛИД «Рупор», Inter-M, Bosch Plena/Variodyne и аналоги.','Табло «Выход» — светодиодные, с питанием от линии СОУЭ или со встроенным аккумулятором.'])+P('Если здание с зонной СОУЭ — берите матричные усилители: меньше возни с коммутацией зон при сдаче.')],
+ ]},
+ {id:'mist',label:'Ошибки',cards:[
+  ['Типовые ошибки СОУЭ',ERR(['Линии проложены не FRLS-кабелем.','Громкость не проверена шумомером: в шумных зонах 75 дБА не набирается.','Усилитель без запаса мощности — «впритык» по ваттам.','Для 4-го типа не сделано зонирование и нет обратной связи зон.','Потолочные оповещатели перекрыты отделкой/решётками потолка.','Нет ручного пуска с пожарного поста — только автоматика.'])]
+ ]}]},
+
+{id:'aupt',name:'Автоматика пожаротушения',tag:'АУПТ',color:'#41c7ff',icon:'drop',norms:['СП 485.1311500.2020','ГОСТ Р 53280 (серия)'],tabs:[
+ {id:'base',label:'Основы',cards:[
+  ['Виды установок',L(['Водяные: спринклерные (постоянно заполненная сеть, колба в оросителе) и дренчерные (завесы, орошение по сигналу).','Пенные — на базе воды с пенообразователем.','Газовые (ГОТВ) — для серверных, архивов, электрощитовых.','Порошковые (МПП) и аэрозольные (ГОА) — локальные решения.','Тонкораспылённая вода (ТРВ) — высоко- и низконапорные системы.'])],
+  ['Водяные: нормируемые параметры',T(['Группа помещений','Интенсивность, л/(с·м²)','Площадь для расчёта','Время работы'],[['1','0,08','60 м²','30 мин'],['2','0,12','120 м²','60 мин'],['3','0,24','180 м²','60 мин']])+N('Группа помещения определяется по таблицам СП 485.1311500.2020. Дренчерные завесы проёмов — как правило, не менее 1 л/с на погонный метр проёма.')+L(['Спринклерный ороситель: стандартная температура срабатывания колбы <span class="mono">57–68 °С</span>.','Монтаж розеткой к перекрытию: от теплового замка до перекрытия примерно 0,08–0,4 м, шаг оросителей по их карте орошения.'])],
+  ['Газовое пожаротушение',L(['Помещение максимально герметично: суммарная площадь проёмов — не более <span class="mono">10 %</span> ограждающих конструкций.','ГОТВ: ФК-5-1-12 (Novec 1230) — порядка 5 % об.; хладон 227еа — порядка 8–9 % об.; CO₂ — по массе (осторожно: опасен для людей).','Перед выпуском — задержка на эвакуацию 10–30 с, табло «Газ — уходи!», после выпуска — «Газ — не входи!», «Автоматика отключена».','Двери — самозакрывающиеся, с уплотнениями; после срабатывания — удаление газа вентиляцией.'])],
+  ['Порошок и аэрозоль',L(['МПП («Тунгус», «Буран» и др.) — по защищаемой площади/объёму; пуск импульсный от КПБ/АСПТ.','ГОА — по защищаемому объёму (м³), с отступами от генератора до горючих поверхностей по паспорту.','Ограничения: не применяются для помещений, которые не могут быть покинуты до начала подачи, и с большим числом людей (50 и более) без возможности быстрой эвакуации; не тушат тлеющие материалы аэрозолем в объёме без герметизации.'])],
+ ]},
+ {id:'mount',label:'Монтаж',cards:[
+  ['Извещатели и алгоритм',L(['Управление АУПТ — только по алгоритму В: не менее двух извещателей на направление тушения.','Одно направление тушения, как правило, защищает одно помещение (газ/порошок) или зону (дренчер).'])],
+  ['Контроль и линии',L(['Линии управления — нг-FRLS, отдельные от сигнальных.','Контроль направления: датчики давления/манометры газовых модулей, сигнализаторы расхода спринклерных линий, датчики срабатывания МПП.','Пуск модулей — реле КПБ/АСПТ; ток и длительность импульса — строго по паспорту модуля (проверяйте эквивалентом нагрузки).'])],
+ ]},
+ {id:'gear',label:'Оборудование',cards:[
+  ['Приборы и модули',L(['БОЛИД: С2000-АСПТ (прибор управления АУПТ), С2000-КПБ, табло_gas.','РУБЕЖ: приборы и модули протокола R3 для АУПТ.','Модули порошковые «Тунгус», «Буран»; аэрозольные генераторы серии АГС и аналоги.','Газовые модули (МГП) с ГОТВ ФК-5-1-12, хладон 227еа, CO₂; побудительные линии и станции управления спринклерных/дренчерных систем.'])],
+ ]},
+ {id:'mist',label:'Ошибки',cards:[
+  ['Типовые ошибки АУПТ',ERR(['Один извещатель на направление вместо двух (алгоритм В обязателен).','Проёмы и неплотности > 10 % ограждений в помещении с газовым тушением — газ «утекает», концентрация не набирается.','Задержка пуска без табло «Газ/Порошок — уходи!» — люди не успевают выйти.','Порошок/аэрозоль в помещениях с массовым пребыванием людей без возможности немедленной эвакуации.','Водяные системы в неотапливаемых помещениях без дренажа и антизамерзающих решений.','Линию пуска МПП проверяют «лампочкой», а не эквивалентом с паспортными параметрами импульса.'])]
+ ]}]},
+
+{id:'du',name:'Дымоудаление',tag:'ДУ и подпор',color:'#35e0a1',icon:'wind',norms:['СП 7.13130.2013','СП 6.13130.2021'],tabs:[
+ {id:'base',label:'Основы',cards:[
+  ['Задачи и состав',L(['Дымоудаление — удаление продуктов горения из коридоров, холлов, залов, паркингов, атриумов.','Подпор воздуха — избыточное давление в лестничных клетках, шахтах лифтов, тамбур-шлюзах: дым туда не заходит.','Состав: вентиляторы дымоудаления (ВДУ) и подпора, клапаны дымоудаления (нормально закрытые), огнезадерживающие клапаны, огнестойкие воздуховоды, автоматика.'])],
+  ['Нормируемые параметры',L(['Вентиляторы ДУ обеспечивают работу не менее <span class="mono">1 ч при 200 °С</span>; для закрытых подземных автостоянок — не менее 1 ч при 400 °С или 2 ч при 300 °С.','При подпоре скорость воздуха в открытом дверном проёме защищаемого тамбур-шлюза/лифтовой шахты — не менее <span class="mono">1,5 м/с</span>.','Воздуховоды — из негорючих материалов, с нормируемым пределом огнестойкости (EI).'])+N('Конкретные решения (где нужен подпор, какой расход) — по СП 7.13130.2013 и расчёту. Здесь — опорные величины для приёмки.')],
+ ]},
+ {id:'mount',label:'Монтаж',cards:[
+  ['Питание и линии автоматики',L(['Питание приводов и вентиляторов ДУ — линиями, сохраняющими работоспособность при пожаре (нг-FRLS/FRHF, по СП 6.13130.2021).','Приводы клапанов: реверсивные 220 В или 24 В; управление — через релейные модули (КПБ и аналоги).','Концевые выключатели положений клапана («открыт/закрыт») — обязательно заводить в диспетчеризацию/ПКП как контроль.'])],
+  ['Логика управления от АПС',L(['По сигналу «Пожар» защищаемой зоны: открытие клапана ДУ этой зоны; пуск вентилятора дымоудаления; пуск вентилятора подпора; закрытие огнезадерживающих клапанов; отключение общеобменной вентиляции.','Ручное управление — с пожарного поста (дублирующие кнопки).','Периодические проверки работоспособности — по регламенту эксплуатации.'])],
+ ]},
+ {id:'gear',label:'Оборудование',cards:[
+  ['Исполнительные устройства',L(['Вентиляторы ВДУ/ВКРДУ (радиальные/крышные), вентиляторы подпора.','Электроприводы клапанов: реверсивные и с возвратной пружиной (Belimo-типа и аналоги).','Релейные модули управления: БОЛИД С2000-КПБ, модули РУБЕЖ и др.','Огнестойкие воздуховоды и огнезаделка проходов.'])],
+ ]},
+ {id:'mist',label:'Ошибки',cards:[
+  ['Типовые ошибки ДУ',ERR(['На дымоудаление «пристроили» воздуховоды общеобменной вентиляции — недопустимо.','Подпор не сделан или не отбалансирован: скорость в проёме меньше 1,5 м/с, система бесполезна.','Клапаны без концевых выключателей — диспетчер не видит фактическое положение.','Гибкие вставки и воздуховоды без нормируемого предела огнестойкости на линиях ДУ.','При приёмке перепутаны состояния клапанов (открыт/закрыт) — логика работает наоборот.','Нет регламентных проверок: через пару лет приводы закисают.'])]
+ ]}]},
+
+{id:'ops',name:'Охранно-тревожная сигнализация',tag:'ОТС · периметр',color:'#c08bff',icon:'shield',norms:['РД 78.36.003-2002','ГОСТ Р 51558-2014'],tabs:[
+ {id:'base',label:'Основы',cards:[
+  ['Структура охранной сигнализации',L(['Извещатели → шлейфы сигнализации (ШС) → ПКП → светозвуковые оповещатели и передача на ПЦО.','Рубежи охраны: периметр, входные проёмы, внутренний объём, рубеж защиты ценностей (сейфы, кассы).','Тактика: каждый рубеж ставится/снимается независимо.'])],
+  ['Типы извещателей',T(['Тип','Примеры серий','Применение'],[['Магнитоконтактные (СМК)','ИО 102','двери, окна, люки, решётки'],['Акустические (стекло)','«Арфа» и аналоги','разбитие остекления'],['Вибрационные','«Гюрза» (периметр), поверхностные','ограждения, стены, сейфы'],['Пассивные ИК','«Астра», «Фотон»','объём помещения, занавес прохода'],['Радиоволновые','однопозиционные/двухпозиционные','длинные коридоры, ангары, периметр'],['Комбинированные','ИК + СВЧ','снижение ложняков на улице']])],
+  ['Шлейфы сигнализации',L(['ШС оконечивается резистором номиналом по паспорту ПКП (типовой — <span class="mono">4,7 кОм</span> для С2000-4).','ПКП различает состояния: норма / тревога / короткое замыкание / обрыв — при схеме с распознаванием.','Активные извещатели питаются по шлейфу (12 В), ток потребления — в пределах нормы прибора.'])],
+  ['Периметральная сигнализация',L(['Вибрационные средства на полотно ограждения («Гюрза» и аналоги), радиоволновые и ИК извещатели вдоль рубежа.','Запретная зона вдоль ограждения очищается от растительности, построек и посторонних предметов.','Инженерные средства: основное ограждение, предупредительные знаки, освещение рубежа; усиление — ТВ-камерами по рубежу.','Сдача периметра — как правило, с участием вневедомственной охраны/Росгвардии по ТУ.'])],
+ ]},
+ {id:'mount',label:'Монтаж',cards:[
+  ['Прокладка шлейфов',L(['Кабель: КСПВ 2×0,5 и аналоги (внутри), для улицы — кабели наружной прокладки с защитой от УФ и влаги.','Отступ от силовых линий ≥ 0,5 м; при невозможности — экранированный кабель с заземлением экрана с одной стороны.','Длины ШС и сопротивление — в пределах паспорта ПКП; считайте падение питания для активных извещателей (калькулятор в разделе «Расчёт»).'])],
+  ['Установка извещателей',L(['СМК: зазор по паспорту (обычно единицы–десятки мм), монтаж на неподвижную часть, без перекоса и вибрации полотна.','Пассивные ИК: не направлять на окна, радиаторы, кондиционеры; высота установки ~2,0–2,4 м по диаграмме из паспорта.','Вибрационные датчики периметра — на жёсткие, исправные участки ограждения; шаг по паспорту.','Адреса и наименования зон — на приборе и в журнале.'])],
+ ]},
+ {id:'gear',label:'Оборудование',cards:[
+  ['ПКП и передача на ПЦО',L(['ПКП: БОЛИД С2000-4 / С2000-КДЛ, «Гранит» (Сибирский Арсенал), «ВЭРС-ПК» и аналоги.','Объектовые приборы передачи извещений на ПЦО по GSM/Ethernet/выделенной линии.','Светозвуковые оповещатели на входах, тревожные кнопки (ИПР тревоги) на постах охраны.','Совместная работа с СОТ: по тревоге зоны — показ соответствующих камер.'])],
+ ]},
+ {id:'mist',label:'Ошибки',cards:[
+  ['Типовые ошибки ОТС',ERR(['Шлейф проложен вплотную к силовым кабелям 220 В — наводки, ложные тревоги.','СМК с зазором больше нормы или на «играющем» полотне — датчик обходится или ложно срабатывает.','ИК-извещатель смотрит на окно или обогреватель — зимне-летние ложняки.','Нет оконечного резистора — прибор не различает КЗ и обрыв, самодиагностика не работает.','Периметр: запретная зона заросла, датчики на шатких секциях ограждения.','Нет резерва питания: АКБ умер, объект обесточен — охраны фактически нет.'])]
+ ]}]},
+
+{id:'skud',name:'Контроль доступа',tag:'СКУД',color:'#ffd94a',icon:'key',norms:['ГОСТ Р 51241','СП 484 (разблокировка при пожаре)'],tabs:[
+ {id:'base',label:'Основы',cards:[
+  ['Состав СКУД',L(['Идентификаторы: карты/брелоки, PIN, биометрия, мобильные идентификаторы.','Считыватель → контроллер → исполнительное устройство (замок, турникет, шлагбаум).','Датчик положения двери, кнопка «Выход», источник резервного питания, ПО.'])],
+  ['Идентификаторы и интерфейсы',T(['Технология','Особенности'],[['EM-Marine 125 кГц','простые proximity-карты, легко копируются'],['Mifare 13,56 МГц','защита от копирования, шифрование, многозаписные'],['PIN / биометрия','без носителя, но медленнее поток'],['Wiegand 26/34','классика подключения считывателей: линии D0/D1, витая пара, до ~100 м'],['OSDP (RS-485)','шифрованный обмен со считывателем, до 1200 м']])],
+  ['Замки',L(['Электромагнитные: усилие удержания 180–500 кгс; для офисной двери достаточно ~280 кгс, для входной — от 400 кгс; питание 12 В, ток ~0,3–0,5 А.','Электромеханические и электрозащёлки: работают в паре с обычной ручкой, подходят для «тёплых» дверей.','Обязателен доводчик, отрегулированный под усилие замка.'])],
+  ['СКУД и пожар',W('Двери на путях эвакуации должны автоматически разблокироваться при сигнале «Пожар» от АПС. Турникеты — планки «Антипаника» или раскрытие створок. Питание замков при этом снимается реле контроллера по команде пожарной автоматики.')],
+ ]},
+ {id:'mount',label:'Монтаж',cards:[
+  ['Линии',L(['Wiegand: витая пара в экране, длина до ~100 м; питание считывателя — отдельными жилами.','Питание замка: отдельная линия достаточного сечения — считайте падение напряжения на длине (калькулятор).','Сетевые контроллеры — витой парой (Ethernet) до коммутатора; резервируйте питание контроллера.','Линию разблокировки, работающую совместно с АПС, выполнять с учётом требований СП 6.13130.2021 к огнестойкости.'])],
+  ['Дверной блок',L(['СМК двери — на контроллер: события «дверь взломана» и «дверь открыта дольше нормы».','Кнопка «Выход» — через контроллер с задержкой срабатывания.','Проход кабеля через полотно — гибкий переход; снизу и сверху — закладные под замок и доводчик.'])],
+ ]},
+ {id:'gear',label:'Оборудование',cards:[
+  ['Контроллеры и замки',L(['Parsec, RusGuard, IronLogic (Z-5R и сетевые), PERCo (турникеты), БОЛИД АРМ «Орион» + модули.','Электромагнитные замки серий ML/AL (180–500 кгс), электромеханические замки и защёлки.','ББП 12 В с АКБ 7–17 Ач под требуемую автономию; контроллеры со встроенными ББП.','Программное обеспечение: уровни доступа, расписания, антипассбэк, учёт рабочего времени.'])],
+ ]},
+ {id:'mist',label:'Ошибки',cards:[
+  ['Типовые ошибки СКУД',ERR(['Нет автоматической разблокировки при пожаре — прямое нарушение требований к эвакуации.','Считыватель подключён «лапшой» более 100 м — данные Wiegand теряются.','Замок запитан тонким длинным проводом: 12 В проседают до 9 В, замок «не держит».','Доводчик не отрегулирован — дверь бьёт, замок разбивается.','Датчик двери не заведён в контроллер — нет контроля «дверь взломана/заблокирована».','Одна «мастер-карта» у всех сотрудников и отсутствие персонализации идентификаторов.'])]
+ ]}]},
+
+{id:'cctv',name:'Охранное видеонаблюдение',tag:'СОТ / CCTV',color:'#ff7ab8',icon:'cam',norms:['ГОСТ Р 51558-2014'],tabs:[
+ {id:'base',label:'Основы',cards:[
+  ['Аналог или IP',L(['Аналог HD (AHD/TVI/CVI): дёшево, передача по коаксиалу на сотни метров, но без интеллекта на камере.','IP: PoE-питание по витой паре, аналитика (детекция движения, пересечение линии, лица), простая масштабируемость.','Для новых объектов в большинстве случаев — IP 2–4 Мп.')],
+  ['Ключевые параметры камер',L(['Разрешение: 2 Мп — базовый уровень для периметра и помещений, 4–8 Мп — детали и большие сцены.','Чувствительность 0,005–0,05 лкс; ИК-подсветка на нужную дистанцию (20–50 м типично).','WDR (аппаратный 120 дБ) — обязательно против засветки и контрастных сцен.','Уличное исполнение IP66/IP67, антивандальность IK10 для нижних точек установки.'])],
+  ['Объективы и детализация',T(['Фокус (1/2,8")','Угол обзора'],[['2,8 мм','≈ 95–105°'],['3,6 мм','≈ 75–85°'],['6 мм','≈ 50°'],['12 мм','≈ 25°']])+'<p>Ориентиры по плотности пикселей:</p>'+T(['Задача','Пикс./м сцены'],[['Обнаружение факта','≥ 25'],['Распознавание (свой/чужой)','≥ 100'],['Идентификация лица','≥ 250']])+P('Отсюда простая прикидка: при 2 Мп и объективе 2,8 мм лицо уверенно идентифицируется примерно с 3–5 м.')],
+  ['PoE',L(['802.3af — до 15,4 Вт на порт (обычная камера), 802.3at — до 30 Вт (PTZ, мощная подсветка).','Бюджет коммутатора = сумма мощностей камер + запас 20–30 %: камера 2 Мп с ИК потребляет ~6–10 Вт.','Дистанция по витой паре — не более 100 м; для больших дистанций — удлинители PoE или оптика.'])],
+ ]},
+ {id:'mount',label:'Монтаж',cards:[
+  ['Кабельные линии',L(['UTP cat5e/6 с медной жилой (24 AWG) ≤ 100 м; CCA-кабель для PoE — зло: падение напряжения и перегрев.','Аналог HD — коаксиал РК-75 (типа РК-75-4): сотни метров без ретранслятора.','Магистрали и расстояния более 300 м — одномодовая оптика.','Уличные вводы — гермобоксы/муфты, капельные петли, кабель наружной прокладки с тросом.')],
+  ['Установка камер',L(['Избегайте съёмки против окон и источников света — либо меняйте точку, либо камеру с WDR.','Высота общих сцен ~2,5–4 м, вне досягаемости рук; козырьки над уличными точками.','Заземление и грозозащита уличных линий в грозоопасных районах.','Разъёмы — в гермобоксе, а не «на скрутке под камерой».'])],
+  ['Архив',L(['Глубина архива — по ТЗ (типово 7–30 суток); считайте ёмкость калькулятором в разделе «Расчёт».','Только HDD surveillance-серии (WD Purple, Seagate SkyHawk и аналоги) — рассчитаны на запись 24/7.','RAID1/RAID5 на важных объектах; запись по детекции движения экономит 30–50 % архива.'])],
+ ]},
+ {id:'gear',label:'Оборудование',cards:[
+  ['Линейки',L(['IP и аналог: HiWatch/Hikvision, Dahua, Tiandy и аналоги по бюджету проекта.','Регистраторы и ПО: Trassir, Macroscop, NVR производителей камер.','Коммутаторы PoE: бюджет от 60–120 Вт для малых объектов, стеки с бюджетом 300+ Вт.','Хранение: NVR с 1–4 SATA, полки NAS для крупных систем.'])],
+ ]},
+ {id:'mist',label:'Ошибки',cards:[
+  ['Типовые ошибки СОТ',ERR(['PoE по CCA-кабелю или длина > 100 м: камеры «ребутятся» ночью при включении ИК-подсветки.','Камера смотрит против окна — вместо лиц силуэты в контровом свете.','Блок питания без запаса 20–30 % — ночная подсветка просаживает линию.','Десктопный HDD в регистраторе — умирает за год; нужны surveillance-серии.','Битрейт при проектировании занизили — архив оказался на 3 суток вместо 30.','Питание двух камер по одному кабелю через «разветвитель» PoE.'])]
+ ]}]},
+
+{id:'bms',name:'Управление инженерными системами',tag:'АСУЗ / диспетчеризация',color:'#6f8bff',icon:'bld',norms:['Modbus / BACnet / KNX','СП 484 (сценарии АУПЗ)'],tabs:[
+ {id:'base',label:'Основы',cards:[
+  ['Что такое АСУЗ',L(['Единая диспетчеризация инженерных систем здания: вентиляция и холодоснабжение, ИТП, водоснабжение, электроснабжение, освещение, лифты — плюс контроль состояния слаботочных систем.','Задачи: мониторинг аварий, автоматические сценарии, энергоучёт, АРМ диспетчера с историей событий.'])],
+  ['Протоколы и шины',T(['Протокол','Среда','Дальность / лимиты'],[['Modbus RTU','RS-485, витая пара с экраном','до 1200 м, до 32 устройств на сегмент'],['Modbus TCP','Ethernet','по сети, без ограничений по RS-485'],['BACnet/IP','Ethernet','межсистемный обмен'],['KNX','шина 2×2×0,8, ~30 В DC','до 1000 м на линию, до 64 устройств на линию'],['OPC UA','верхний уровень SCADA','интеграция систем разных вендоров'],['«Сухой контакт»','релейный выход → дискретный вход','простая интеграция без протокола']])],
+  ['Сценарий «Пожар» от АПС',L(['Запуск СОУЭ по зданию/зонам.','Открытие клапанов дымоудаления, пуск вентиляторов ДУ и подпора.','Отключение общеобменной вентиляции и кондиционирования.','Разблокировка СКУД на путях эвакуации.','Лифты — на основной этаж, двери открыть (лифты для МГН — по отдельному алгоритму).','Пуск АУПТ по зонам, где это требуется.','Передача «Пожар» в диспетчерскую и на пульт МЧС.'])],
+ ]},
+ {id:'mount',label:'Монтаж',cards:[
+  ['RS-485: правила шины',L(['Топология — «цепочка», а не звезда: кабель идёт от устройства к устройеству.','На концах сегмента — терминаторы 120 Ом.','Экран — только с одной стороны (иначе контур заземления и наводки).','Отступ от силовых линий — как для сигнальных цепей; скорость и чётность — одинаковые у всех устройств.'])],
+  ['KNX и дискретные сигналы',L(['KNX: витая пара J-Y(St)Y 2×2×0,8, шина ~30 В DC; топология практически любая, длина линии до 1000 м.','«Сухие контакты» от инженерного оборудования заводите на дискретные входы контроллера с общим проводом по схеме производителя.','Ведите карту адресов и таблицу сигналов — без неё сервис превращается в квест.'])],
+ ]},
+ {id:'gear',label:'Оборудование',cards:[
+  ['Контроллеры и SCADA',L(['Свободно программируемые контроллеры: ОВЕН (ПЛК/СПК), Segnetics (SMH4, Pixel), Wiren Board и аналоги.','Модули ввода-вывода: AI/AO/DI/DO, счётные входы для учёта ресурсов.','SCADA: MasterSCADA, Simple-Scada, Trace Mode; веб-интерфейсы для диспетчера.','Шлюзы протоколов Modbus↔BACnet↔KNX для «чужих» систем.'])],
+ ]},
+ {id:'mist',label:'Ошибки',cards:[
+  ['Типовые ошибки АСУЗ',ERR(['RS-485 «звездой» и без терминаторов — отражения, связь «падает» случайно и «сама».','Экран заземлён с двух сторон — по экрану течёт ток, шина фонит.','Конфликты адресов на шине: два устройства с одним адресом кладут обмен.','Нет документации: карты адресов и таблицы сигналов не сдали заказчику.','Интеграция только «на реле» без обратных связей — диспетчер видит команду, но не видит факт исполнения.'])]
+ ]}]}
+];
+
+/* ============ СХЕМЫ ============ */
+const SCHEMES=[
+{id:'sch-dpls',sys:'aps',title:'Адресная линия ДПЛС (на примере БОЛИД)',cap:'Двухпроводная линия питания+данных: до 127 устройств, до 1000 м. Топология произвольная, кольцо — для живучести.',svg:`
+<svg viewBox="0 0 340 178">
+<rect x="8" y="52" width="62" height="64" rx="6" class="blk"/><text x="39" y="76" class="blkt" text-anchor="middle">С2000-КДЛ</text><text x="39" y="88" class="mut" text-anchor="middle">линия ДПЛС</text><circle cx="70" cy="98" r="2.4" fill="#ffb340"/><circle cx="70" cy="106" r="2.4" fill="#41c7ff"/>
+<path d="M70 98 H328" class="wire" stroke="#ffb340"/><path d="M70 106 H328" class="wire" stroke="#41c7ff"/><path d="M70 102 H328" class="flow"/>
+<path d="M124 98 V56" class="wire" stroke="#ffb340"/><path d="M196 98 V56" class="wire" stroke="#ffb340"/><path d="M268 98 V56" class="wire" stroke="#ffb340"/>
+<g><path d="M114 46 h20 M117 46 a7 7 0 0 1 14 0 z" fill="#22304a" stroke="#41c7ff" stroke-width="1.4"/><circle cx="124" cy="36" r="2" fill="#ff5d4d" class="led"/></g>
+<g><path d="M186 46 h20 M189 46 a7 7 0 0 1 14 0 z" fill="#22304a" stroke="#41c7ff" stroke-width="1.4"/><circle cx="196" cy="36" r="2" fill="#ff5d4d" class="led"/></g>
+<g><path d="M258 46 h20 M261 46 a7 7 0 0 1 14 0 z" fill="#22304a" stroke="#41c7ff" stroke-width="1.4"/><circle cx="268" cy="36" r="2" fill="#ff5d4d" class="led"/></g>
+<text x="124" y="26" class="lbl" text-anchor="middle">ДИП-34А</text><text x="196" y="26" class="lbl" text-anchor="middle">ДИП-34А</text><text x="268" y="26" class="lbl" text-anchor="middle">ДИП-34А</text>
+<path d="M160 106 V138" class="wire" stroke="#41c7ff"/><rect x="152" y="138" width="16" height="16" rx="3" fill="#3a1a1a" stroke="#ff5d4d" stroke-width="1.4"/><text x="160" y="166" class="lbl" text-anchor="middle">ИПР</text>
+<path d="M326 94 V110" stroke="#8fa0b8" stroke-width="2"/>
+<text x="328" y="40" class="mut" text-anchor="end">≤ 127 устройств</text><text x="328" y="150" class="mut" text-anchor="end">длина ≤ 1000 м</text><text x="8" y="172" class="mut">кабель: КПСнг(А)-FRLS 1×2×0,75 · кольца/ветвления допускаются</text>
+</svg>`},
+{id:'sch-shleif',sys:'ops',title:'Неадресный шлейф с оконечным резистором',cap:'СМК в разрыве шлейфа, в конце — резистор 4,7 кОм. ПКП различает норму, тревогу, КЗ и обрыв.',svg:`
+<svg viewBox="0 0 340 150">
+<rect x="8" y="40" width="62" height="60" rx="6" class="blk"/><text x="39" y="62" class="blkt" text-anchor="middle">ПКП</text><text x="39" y="74" class="mut" text-anchor="middle">напр. С2000-4</text>
+<path d="M70 58 H300" class="wire" stroke="#c08bff"/><path d="M70 74 H300" class="wire" stroke="#8fa0b8"/><path d="M70 66 H300" class="flow"/>
+<g><rect x="116" y="52" width="12" height="12" rx="2" fill="#22304a" stroke="#c08bff" stroke-width="1.3"/><rect x="132" y="52" width="12" height="12" rx="2" fill="#22304a" stroke="#c08bff" stroke-width="1.3"/><text x="130" y="42" class="lbl" text-anchor="middle">ИО 102 (СМК)</text></g>
+<g><rect x="188" y="52" width="12" height="12" rx="2" fill="#22304a" stroke="#c08bff" stroke-width="1.3"/><rect x="204" y="52" width="12" height="12" rx="2" fill="#22304a" stroke="#c08bff" stroke-width="1.3"/><text x="202" y="42" class="lbl" text-anchor="middle">ИО 102 (СМК)</text></g>
+<path d="M248 58 l6 8 6-12 6 12 6-12 6 12 6-8" class="wire" stroke="#ffb340" stroke-width="1.6"/>
+<text x="300" y="90" class="lbl" text-anchor="end">R = 4,7 кОм (по паспорту ПКП)</text>
+<text x="8" y="122" class="mut">ШС: КСПВ 2×0,5 · активные извещатели питаются по шлейфу (12 В)</text><text x="8" y="134" class="mut">контроль состояний: норма / тревога / КЗ / обрыв</text>
+</svg>`},
+{id:'sch-soue',sys:'soue',title:'Линия зоны СОУЭ (речевое оповещение)',cap:'100-вольтовая линия от усилителя: потолочные громкоговорители и табло «Выход». Линии — только нг-FRLS.',svg:`
+<svg viewBox="0 0 340 168">
+<rect x="8" y="44" width="56" height="36" rx="5" class="blk"/><text x="36" y="60" class="blkt" text-anchor="middle">С2000М</text><text x="36" y="71" class="mut" text-anchor="middle">команда</text>
+<rect x="8" y="86" width="56" height="40" rx="5" class="blk"/><text x="36" y="102" class="blkt" text-anchor="middle">Усилитель</text><text x="36" y="114" class="mut" text-anchor="middle">240 Вт · резерв 30 %</text>
+<path d="M64 74 H84" class="wire" stroke="#ffb340"/>
+<path d="M64 106 H330" class="wire" stroke="#ff5d4d"/><path d="M64 114 H330" class="wire" stroke="#ffb340"/><path d="M64 110 H330" class="flow"/>
+<path d="M130 114 V46 M200 114 V46 M270 114 V46" class="wire" stroke="#8fa0b8" stroke-width="1.2"/>
+<path d="M8 40 H330" stroke="#33415a" stroke-width="2"/>
+<g><path d="M120 46 h20 l-4 12 h-12 z" fill="#22304a" stroke="#ffb340" stroke-width="1.4"/><path d="M124 50 h12 M125 54 h10" stroke="#8fa0b8" stroke-width="1"/></g>
+<g><path d="M190 46 h20 l-4 12 h-12 z" fill="#22304a" stroke="#ffb340" stroke-width="1.4"/><path d="M194 50 h12 M195 54 h10" stroke="#8fa0b8" stroke-width="1"/></g>
+<g><path d="M260 46 h20 l-4 12 h-12 z" fill="#22304a" stroke="#ffb340" stroke-width="1.4"/><path d="M264 50 h12 M265 54 h10" stroke="#8fa0b8" stroke-width="1"/></g>
+<rect x="300" y="48" width="30" height="15" rx="3" fill="#0f2e22" stroke="#35e0a1" stroke-width="1.3"/><text x="315" y="58" text-anchor="middle" fill="#35e0a1" font-size="6" font-weight="800">ВЫХОД</text>
+<text x="130" y="26" class="lbl" text-anchor="middle">потолок: 3–6 Вт / 15–30 м²</text>
+<text x="8" y="148" class="mut">кабели линий зон — нг-FRLS · зона 4-го типа контролируется усилителем (обратная связь)</text>
+</svg>`},
+{id:'sch-skud',sys:'skud',title:'Точка доступа СКУД (дверь с ЭМ-замком)',cap:'Классическая связка: контроллер, считыватель Wiegand, электромагнитный замок, СМК, кнопка «Выход», ББП с АКБ.',svg:`
+<svg viewBox="0 0 340 210">
+<rect x="104" y="26" width="92" height="150" rx="4" fill="none" stroke="#33415a" stroke-width="2"/><rect x="112" y="34" width="76" height="134" rx="3" fill="#131a26" stroke="#33415a"/><circle cx="178" cy="104" r="3" fill="#8fa0b8"/>
+<rect x="128" y="22" width="44" height="9" rx="2" fill="#22304a" stroke="#ffd94a" stroke-width="1.3"/><text x="150" y="15" class="lbl" text-anchor="middle">ЭМ-замок ~280 кгс</text>
+<rect x="192" y="30" width="14" height="8" rx="2" fill="#22304a" stroke="#35e0a1" stroke-width="1.2"/><text x="216" y="37" class="mut">СМК двери</text>
+<rect x="236" y="86" width="86" height="52" rx="6" class="blk"/><text x="279" y="106" class="blkt" text-anchor="middle">Контроллер</text><text x="279" y="118" class="mut" text-anchor="middle">СКУД + реле замка</text>
+<rect x="196" y="98" width="14" height="26" rx="3" fill="#22304a" stroke="#ffd94a" stroke-width="1.3"/><text x="203" y="140" class="lbl" text-anchor="middle">Считыватель</text>
+<path d="M210 104 H236 M210 112 H236 M210 120 H236" class="wire" stroke="#41c7ff" stroke-width="1.4"/><text x="223" y="96" class="mut" text-anchor="middle">D0/D1 · витая пара ≤ 100 м</text>
+<circle cx="66" cy="110" r="9" fill="#22304a" stroke="#35e0a1" stroke-width="1.4"/><text x="66" y="130" class="lbl" text-anchor="middle">«Выход»</text><path d="M75 110 H112" class="wire" stroke="#35e0a1" stroke-width="1.4"/>
+<rect x="20" y="168" width="72" height="30" rx="5" class="blk"/><text x="56" y="182" class="blkt" text-anchor="middle">ББП 12 В</text><text x="56" y="192" class="mut" text-anchor="middle">АКБ 7 Ач</text>
+<path d="M92 183 H279 V138" class="wire" stroke="#ff5d4d" stroke-width="1.6"/><path d="M92 183 H150 V31" class="wire" stroke="#ff5d4d" stroke-width="1.6"/>
+<text x="255" y="158" class="mut" text-anchor="middle">питание замка — отдельной жилой, сечение по току</text>
+<text x="8" y="14" class="mut">при сигнале «Пожар» от АПС реле снимает питание замка — дверь свободна</text>
+</svg>`},
+{id:'sch-cctv',sys:'cctv',title:'IP-видеонаблюдение: NVR + PoE',cap:'Звезда на PoE-коммутаторе: каждая камера своей витой парой ≤ 100 м. Бюджет PoE считается по сумме камер.',svg:`
+<svg viewBox="0 0 340 178">
+<rect x="8" y="64" width="66" height="56" rx="6" class="blk"/><text x="41" y="86" class="blkt" text-anchor="middle">NVR</text><text x="41" y="98" class="mut" text-anchor="middle">16 кан · 2×HDD</text><path d="M16 106 h50 M16 112 h50" stroke="#33415a" stroke-width="1.5"/>
+<rect x="108" y="78" width="72" height="28" rx="5" class="blk"/><text x="144" y="96" class="blkt" text-anchor="middle">PoE 8×af/at</text>
+<path d="M74 92 H108" class="wire" stroke="#41c7ff"/><path d="M74 92 H108" class="flow"/>
+<path d="M180 84 H250 M180 90 H250 M180 96 H250" class="wire" stroke="#ff7ab8" stroke-width="1.4"/><path d="M180 90 H250" class="flow"/>
+<g><rect x="250" y="24" width="34" height="14" rx="4" fill="#22304a" stroke="#ff7ab8" stroke-width="1.4"/><circle cx="284" cy="31" r="4" fill="#0b0f16" stroke="#ff7ab8" stroke-width="1.4"/><path d="M262 38 v8 h24" stroke="#33415a" stroke-width="1.6" fill="none"/></g>
+<g><rect x="250" y="62" width="34" height="14" rx="4" fill="#22304a" stroke="#ff7ab8" stroke-width="1.4"/><circle cx="284" cy="69" r="4" fill="#0b0f16" stroke="#ff7ab8" stroke-width="1.4"/><path d="M262 76 v8 h24" stroke="#33415a" stroke-width="1.6" fill="none"/></g>
+<g><rect x="250" y="100" width="34" height="14" rx="4" fill="#22304a" stroke="#ff7ab8" stroke-width="1.4"/><circle cx="284" cy="107" r="4" fill="#0b0f16" stroke="#ff7ab8" stroke-width="1.4"/><path d="M262 114 v8 h24" stroke="#33415a" stroke-width="1.6" fill="none"/></g>
+<g><rect x="250" y="138" width="34" height="14" rx="4" fill="#22304a" stroke="#ff7ab8" stroke-width="1.4"/><circle cx="284" cy="145" r="4" fill="#0b0f16" stroke="#ff7ab8" stroke-width="1.4"/><path d="M262 152 v8 h24" stroke="#33415a" stroke-width="1.6" fill="none"/></g>
+<text x="215" y="40" class="lbl" text-anchor="middle">UTP cat5e CU ≤ 100 м</text><text x="296" y="34" class="mut">2 Мп · 6 Вт</text><text x="296" y="72" class="mut">2 Мп · 7 Вт</text><text x="296" y="110" class="mut">4 Мп · 9 Вт</text><text x="296" y="148" class="mut">PTZ · 24 Вт (at)</text>
+<text x="8" y="146" class="mut">бюджет PoE = Σ P камер + 20–30 % запас</text><text x="8" y="158" class="mut">камера — медный кабель (24 AWG), не CCA</text>
+</svg>`},
+{id:'sch-gas',sys:'aupt',title:'Алгоритм газового пожаротушения',cap:'Пуск по логике «И» от двух извещателей, задержка на эвакуацию с табло, выпуск ГОТВ при закрытых проёмах.',svg:`
+<svg viewBox="0 0 340 224">
+<rect x="16" y="8" width="200" height="30" rx="7" class="blk"/><text x="116" y="21" class="blkt" text-anchor="middle">Два извещателя: алгоритм В («И»)</text><text x="116" y="32" class="mut" text-anchor="middle">сигнал «Пожар» с подтверждением</text>
+<path d="M116 38 V56" class="wire" stroke="#41c7ff"/><path d="M116 38 V56" class="flow"/><path d="M111 50 l5 7 5-7" fill="#41c7ff"/>
+<rect x="16" y="56" width="200" height="30" rx="7" class="blk"/><text x="116" y="69" class="blkt" text-anchor="middle">АСПТ: команда «Пуск» по направлению</text><text x="116" y="80" class="mut" text-anchor="middle">контроль линий, журналы</text>
+<path d="M116 86 V104" class="wire" stroke="#ffb340"/><path d="M116 86 V104" class="flow"/><path d="M111 98 l5 7 5-7" fill="#ffb340"/>
+<rect x="16" y="104" width="200" height="34" rx="7" fill="#2a2013" stroke="#ffb340" stroke-width="1.2"/><text x="116" y="118" class="blkt" text-anchor="middle">Задержка 10–30 с на эвакуацию</text><text x="116" y="130" class="mut" text-anchor="middle">табло «ГАЗ — УХОДИ!»</text>
+<path d="M116 138 V158" class="wire" stroke="#ff5d4d"/><path d="M116 138 V158" class="flow"/><path d="M111 152 l5 7 5-7" fill="#ff5d4d"/>
+<rect x="16" y="158" width="200" height="34" rx="7" fill="#2a1514" stroke="#ff5d4d" stroke-width="1.2"/><text x="116" y="172" class="blkt" text-anchor="middle">Выпуск ГОТВ в помещение</text><text x="116" y="184" class="mut" text-anchor="middle">табло «ГАЗ — НЕ ВХОДИ!» · «Автоматика отключена»</text>
+<rect x="232" y="96" width="100" height="52" rx="7" fill="#12202a" stroke="#35e0a1" stroke-width="1.2"/><text x="282" y="112" class="blkt" text-anchor="middle">Одновременно:</text><text x="282" y="124" class="mut" text-anchor="middle">вентиляция отключена,</text><text x="282" y="134" class="mut" text-anchor="middle">двери закрыты (проёмы ≤ 10 %)</text>
+<path d="M216 121 H232" class="wire" stroke="#35e0a1" stroke-width="1.3"/>
+<text x="16" y="214" class="mut">после выпуска — выдержка времени, проветривание, перезаправка модуля по регламенту</text>
+</svg>`}
+];
+
+/* ============ СПРАВОЧНИК ============ */
+const CABLES=[
+['КПСнг(А)-FRLS 1×2×0,75','ДПЛС АПС, линии СОУЭ, СКУД в составе СПЗ','огнестойкий, нг-FRLS; шлейф ≈ 47 Ом/км'],
+['КПСЭнг(А)-FRLS 1×2×0,75','то же + экранированный для трасс рядом с силовыми','экран заземлять с одной стороны'],
+['КСПВ 2×0,5 / 4×0,5','неадресные шлейфы охранной и пожарной сигнализации, внутри зданий','шлейф 0,5 мм² ≈ 70 Ом/км'],
+['КВВГнг(А)-FRLS','цепи управления систем противопожарной защиты','контрольный, огнестойкий'],
+['ВВГнг(А)-FRLS','питание оборудования СПЗ 220 В','сечение по току и падению'],
+['UTP cat5e/6, CU 24 AWG','IP-видео, LAN, сетевые контроллеры СКУД','≤ 100 м; для PoE — только медь'],
+['РК-75-4 (КВКВ, КВК-2В)','аналоговое HD-видео по коаксиалу','сотни метров без ретранслятора'],
+['Оптика 9/125 (одномод)','магистрали СОТ/ЛВС свыше 300 м','кроссы, пигтейлы, запас по длине'],
+['Кабели наружной прокладки (УФ, влага)','периметр, уличные трассы','трос, гофра ПНД, гермовводы']
+];
+const RESIST=[['0,5','35','70'],['0,75','23,5','47'],['1,0','17,5','35'],['1,5','11,8','23,6'],['2,5','7,1','14,2']];
+const NORMS=[
+['СП 484.1311500.2020','Системы пожарной сигнализации и АУПЗ. Нормы проектирования (с изменениями)'],
+['СП 485.1311500.2020','Системы автоматического пожаротушения. Нормы проектирования'],
+['СП 3.13130.2009','Системы оповещения и управления эвакуацией людей при пожаре'],
+['СП 6.13130.2021','Электроустановки и линии систем противопожарной защиты'],
+['СП 7.13130.2013','Отопление, вентиляция и кондиционирование: требования пожарной безопасности (дымоудаление)'],
+['СП 1.13130.2020','Эвакуационные пути и выходы'],
+['ГОСТ Р 53325-2012','Технические средства пожарной сигнализации. Общие требования'],
+['ГОСТ Р 51558-2014','Средства и системы охранные телевизионные'],
+['ГОСТ Р 51241','Системы контроля и управления доступом'],
+['РД 78.36.003-2002','Выбор и применение ТС охранной, пожарной и охранно-пожарной сигнализации'],
+['ППР в РФ','Правила противопожарного режима (эксплуатация, регламенты обслуживания)'],
+['ПУЭ, 7-е изд.','Прокладка кабелей, разделение цепей, заземление']
+];
+const GLOSS=[
+['АПС','автоматическая пожарная сигнализация — обнаружение пожара и формирование сигнала'],
+['СПС / АУПЗ','пожарная сигнализация / автоматизация управления системами противопожарной защиты (СП 484)'],
+['АУПТ','автоматическая установка пожаротушения'],
+['СОУЭ','система оповещения и управления эвакуацией (типы 1–5)'],
+['ПКП','прибор приёмно-контрольный: принимает шлейфы/линии, формирует сигналы'],
+['ШС','шлейф сигнализации — неадресная линия с оконечным резистором'],
+['ДПЛС','двухпроводная адресная линия связи (питание + данные)'],
+['ДИП / ИП','извещатель дымовой / извещатель пожарный (тепловой и т. п.)'],
+['ИПР','извещатель пожарный ручной'],
+['СМК','магнитоконтактный извещатель (геркон + магнит)'],
+['ПЦО','пульт централизованной охраны (Росгвардия/ЧОП)'],
+['ГОТВ','газовое огнетушащее вещество (ФК-5-1-12, хладон 227еа, CO₂)'],
+['ДУ / подпор','дымоудаление / подпор воздуха при пожаре'],
+['СКУД','система контроля и управления доступом'],
+['Wiegand','интерфейс считывателей: линии D0/D1, до ~100 м'],
+['PoE','питание по витой паре: af до 15,4 Вт, at до 30 Вт'],
+['RS-485 / Modbus RTU','физическая шина и протокол промышленной диспетчеризации'],
+['Сигнализатор расхода','устройство контроля протока воды в спринклерной линии'],
+['FRLS / FRHF','огнестойкое исполнение кабеля (Fire Resistant), низкое дымовыделение / без галогенов'],
+['Антипассбэк','запрет повторного прохода по одной карте без выхода']
+];
+const FACTS=['ИПР — высота 1,5 м','≥ 0,5 м от датчика до светильника','≥ 1 м до вентиляции','ДПЛС: ≤ 127 устройств · ≤ 1000 м','СОУЭ: ≥ 75 дБА','Газ: проёмы ≤ 10 % ограждений','ДУ: ≥ 1 ч при 200 °С','UTP/PoE: ≤ 100 м','Wiegand: ≤ 100 м','RS-485: ≤ 1200 м · ≤ 32 устр.','ШС: оконечный резистор обязателен','СПЗ: только нг-FRLS / FRHF'];
+
+/* ============ СОСТОЯНИЕ ============ */
+const $=s=>document.querySelector(s), $$=s=>[...document.querySelectorAll(s)];
+let FAVS=new Set();try{FAVS=new Set(JSON.parse(localStorage.getItem('slava_favs')||'[]'))}catch(e){}
+const FAVMETA={};
+const INDEX=[];
+let toastTimer;
+function toast(t){const el=$('#toast');el.textContent=t;el.classList.add('on');clearTimeout(toastTimer);toastTimer=setTimeout(()=>el.classList.remove('on'),1600);}
+const sysById=id=>SYSTEMS.find(s=>s.id===id);
+
+/* ============ РЕНДЕР ============ */
+function schemeCard(sc){
+ const s=sysById(sc.sys);
+ return `<div class="card scheme" data-fid="${sc.id}" data-ctitle="${sc.title}"><div class="chead"><h3>${sc.title}</h3><button class="favbtn rp" data-fid="${sc.id}">${HEART}</button></div>
+ <div class="schmeta"><span class="schtag" style="color:${s.color};border-color:${s.color}55;background:${s.color}14">${s.tag}</span></div>
+ <div class="svgwrap">${sc.svg}</div><div class="schcap">${sc.cap}</div></div>`;
+}
+function renderHome(){
+ const d=new Date(),days=['воскресенье','понедельник','вторник','среда','четверг','пятница','суббота'],mon=['января','февраля','марта','апреля','мая','июня','июля','августа','сентября','октября','ноября','декабря'];
+ $('#scr-home').innerHTML=`
+ <div class="hello rv"><div class="date">${d.getDate()} ${mon[d.getMonth()]} ${d.getFullYear()} · ${days[d.getDay()]}</div>
+ <h1>Справочник слаботочных систем</h1><p>8 разделов · 6 схем · 5 калькуляторов · нормы СП и ГОСТ под рукой</p></div>
+ <div class="searchbar rp" onclick="openSearch()"><svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><circle cx="11" cy="11" r="7"/><path d="m21 21-4.3-4.3"/></svg>Поиск по справочнику…</div>
+ <h2 class="sec">Разделы <small>· по системам здания</small></h2>
+ <div class="tiles" id="tiles"></div>
+ <h2 class="sec">Шпаргалка монтажника</h2>
+ <div class="mq rv"><div class="mqtrack" id="mqtrack"></div></div>
+ <h2 class="sec">Инструменты</h2>
+ <div class="qrow rv">
+  <button class="qchip rp" onclick="goCalc('vd')"><span class="d" style="background:#41c7ff"></span>Падение напряжения</button>
+  <button class="qchip rp" onclick="goCalc('hdd')"><span class="d" style="background:#ff7ab8"></span>Архив CCTV</button>
+  <button class="qchip rp" onclick="goCalc('akb')"><span class="d" style="background:#ffb340"></span>АКБ для ИБП</button>
+  <button class="qchip rp" onclick="goCalc('det')"><span class="d" style="background:#ff5d4d"></span>Число датчиков</button>
+  <button class="qchip rp" onclick="showScreen('schemes')"><span class="d" style="background:#35e0a1"></span>Все схемы</button>
+ </div>
+ <h2 class="sec">Избранное</h2>
+ <div class="card" id="homefavs"><div class="empty">Отмечайте карточки сердечком — они соберутся здесь. Пока пусто.</div></div>
+ <footer class="appfoot">v1.0 · офлайн · 16.08.2026 · сверяйте действующие редакции норм</footer>`;
+ $('#tiles').innerHTML=SYSTEMS.map((s,i)=>`<div class="tile rp" style="--c:${s.color};animation-delay:${i*45}ms" onclick="showDetail('${s.id}')">
+ <div class="ticon">${IC[s.icon]}</div><b>${s.name}</b><span>${s.norms[0]}</span></div>`).join('');
+ const tr=FACTS.map(f=>`<span><i>◆</i> ${f}</span>`).join('');
+ $('#mqtrack').innerHTML=tr+tr;
+ renderFavViews();
+}
+function renderSystems(){
+ $('#scr-systems').innerHTML=`<h2 class="sec">Системы здания <small>· ${SYSTEMS.length} разделов</small></h2>`+
+ SYSTEMS.map((s,i)=>`<div class="sysrow rp rv" style="animation-delay:${i*35}ms" onclick="showDetail('${s.id}')">
+ <div class="ticon" style="--c:${s.color};color:${s.color};background:${s.color}1c;border:1px solid ${s.color}40">${IC[s.icon]}</div>
+ <div class="txt"><b>${s.name}</b><p>${s.tag} · ${s.norms[0]}</p></div>
+ <span class="arr"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="m9 5 7 7-7 7"/></svg></span></div>`).join('');
+}
+function renderDetail(id){
+ const s=sysById(id);
+ const tabs=[...s.tabs,{id:'schemes',label:'Схемы',cards:null}];
+ let html=`<button class="backbtn rp" onclick="showScreen('systems')"><svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round"><path d="M15 5l-7 7 7 7"/></svg>К списку систем</button>
+ <div class="hero" style="background:linear-gradient(155deg,${s.color}26,#151b26 62%);--c:${s.color}">
+ <div class="hicon" style="color:${s.color};background:${s.color}1c;border:1px solid ${s.color}45;width:44px;height:44px">${IC[s.icon]}</div>
+ <h1>${s.name}</h1><p>${s.tag}</p>
+ <div class="normchips">${s.norms.map(n=>`<span class="normchips"><span class="nchip">${n}</span></span>`).join('')}</div></div>
+ <div class="tabs" style="--c:${s.color}">${tabs.map((t,i)=>`<button class="tab rp ${i===0?'on':''}" data-tab="${t.id}">${t.label}</button>`).join('')}</div>`;
+ s.tabs.forEach((t,i)=>{html+=`<div class="tpanel ${i===0?'on':''}" data-panel="${t.id}">${t.cards.map((c,j)=>card(`${id}:${t.id}:${j}`,c[0],c[1])).join('')}</div>`;});
+ const rel=SCHEMES.filter(sc=>sc.sys===id);
+ html+=`<div class="tpanel" data-panel="schemes">${rel.length?rel.map(schemeCard).join(''):'<div class="empty">Для этого раздела схемы собраны в общем списке.</div>'}</div>`;
+ $('#scr-detail').innerHTML=html;
+ $$('#scr-detail .tab').forEach(b=>b.onclick=()=>{
+   $$('#scr-detail .tab').forEach(x=>x.classList.toggle('on',x===b));
+   $$('#scr-detail .tpanel').forEach(p=>p.classList.toggle('on',p.dataset.panel===b.dataset.tab));
+   $('#main').scrollTop=0;
+ });
+ refreshFavBtns($('#scr-detail'));
+}
+function renderSchemes(){
+ $('#scr-schemes').innerHTML=`<h2 class="sec">Схемы <small>· ${SCHEMES.length} шт.</small></h2>
+ <div class="schfilter" id="schf"><button class="qchip rp on" data-f="all" style="border-color:var(--acc);color:var(--acc)">Все</button>${SYSTEMS.filter(s=>SCHEMES.some(x=>x.sys===s.id)).map(s=>`<button class="qchip rp" data-f="${s.id}" style="color:${s.color}">${s.tag}</button>`).join('')}</div>
+ <div id="schlist">${SCHEMES.map(schemeCard).join('')}</div>`;
+ $$('#schf .qchip').forEach(b=>b.onclick=()=>{
+   $$('#schf .qchip').forEach(x=>x.classList.remove('on'));
+   x=b.classList.add('on');
+   const f=b.dataset.f;
+   $$('#schlist .scheme').forEach(c=>{const sc=SCHEMES.find(x=>x.id===c.dataset.fid);c.style.display=(f==='all'||sc.sys===f)?'':'none';});
+ });
+ refreshFavBtns($('#scr-schemes'));
+}
+function renderCalc(){
+ $('#scr-calc').innerHTML=`<h2 class="sec">Калькуляторы <small>· считаются на лету</small></h2>
+ <div class="calc rv" id="c-vd"><h3>⚡ Падение напряжения в линии постоянного тока</h3><div class="sub">ΔU = ρ · 2L · I / S, ρ(Cu) = 0,0175 Ом·мм²/м</div>
+ <div class="frow"><div class="fld"><label>Длина L (в одну сторону), м</label><input type="number" id="vdL" value="50"></div><div class="fld"><label>Ток, мА</label><input type="number" id="vdI" value="120"></div></div>
+ <div class="frow"><div class="fld"><label>Сечение, мм²</label><select id="vdS"><option>0.5</option><option selected>0.75</option><option>1</option><option>1.5</option><option>2.5</option></select></div><div class="fld"><label>Напряжение питания</label><select id="vdU"><option value="12" selected>12 В</option><option value="24">24 В</option></select></div></div>
+ <div class="res" id="vdRes"></div></div>
+
+ <div class="calc rv" id="c-hdd"><h3>💾 Объём архива видеонаблюдения</h3><div class="sub">N камер × битрейт × время записи</div>
+ <div class="presets"><button data-b="5">2 Мп · H.265 · 5 Мбит/с</button><button data-b="8">2 Мп · H.264 · 8 Мбит/с</button><button data-b="8">4 Мп · H.265 · 8 Мбит/с</button><button data-b="12">8 Мп · H.265 · 12 Мбит/с</button></div>
+ <div class="frow"><div class="fld"><label>Камер, шт</label><input type="number" id="hdN" value="8"></div><div class="fld"><label>Битрейт, Мбит/с</label><input type="number" id="hdB" value="5" step="0.5"></div><div class="fld"><label>Глубина, сут</label><input type="number" id="hdD" value="14"></div></div>
+ <div class="res" id="hdRes"></div></div>
+
+ <div class="calc rv" id="c-akb"><h3>🔋 Ёмкость АКБ для ИБП/РИП</h3><div class="sub">η инвертора/разряда ≈ 0,8 · запас 25 %</div>
+ <div class="frow"><div class="fld"><label>Нагрузка, Вт</label><input type="number" id="akP" value="60"></div><div class="fld"><label>Автономия, ч</label><input type="number" id="akT" value="4" step="0.5"></div><div class="fld"><label>Напряжение</label><select id="akU"><option value="12" selected>12 В</option><option value="24">24 В</option></select></div></div>
+ <div class="res" id="akRes"></div></div>
+
+ <div class="calc rv" id="c-det"><h3>🔥 Число точечных извещателей</h3><div class="sub">Оценка по максимальному расстоянию между датчиками</div>
+ <div class="frow"><div class="fld"><label>Длина, м</label><input type="number" id="deL" value="18"></div><div class="fld"><label>Ширина, м</label><input type="number" id="deW" value="12"></div></div>
+ <div class="fld" style="margin-bottom:8px"><label>Тип и высота</label><select id="deT"><option value="9" selected>Дымовой · h ≤ 3,5 м (до 9 м)</option><option value="8.5">Дымовой · 3,5–6 м (до 8,5 м)</option><option value="8">Дымовой · 6–10 м (до 8 м)</option><option value="7.5">Дымовой · 10–12 м (до 7,5 м)</option><option value="5">Тепловой · h ≤ 3,5 м (до 5 м)</option><option value="4.5">Тепловой · 3,5–6 м (до 4,5 м)</option><option value="4">Тепловой · 6–9 м (до 4 м)</option></select></div>
+ <div class="res" id="deRes"></div></div>
+
+ <div class="calc rv" id="c-rs"><h3>🧵 Сопротивление проводов линии</h3><div class="sub">Петля «туда-обратно» · сверяйте предел с паспортом прибора</div>
+ <div class="frow"><div class="fld"><label>Длина линии, м</label><input type="number" id="rsL" value="300"></div><div class="fld"><label>Сечение, мм²</label><select id="rsS"><option>0.5</option><option selected>0.75</option><option>1</option><option>1.5</option><option>2.5</option></select></div></div>
+ <div class="res" id="rsRes"></div></div>`;
+ const upd={vd:calcVD,hd:calcHD,ak:calcAKB,de:calcDET,rs:calcRS};
+ $('#scr-calc').addEventListener('input',()=>{Object.values(upd).forEach(f=>f());});
+ $$('#c-hdd .presets button').forEach(b=>b.onclick=()=>{$('#hdB').value=b.dataset.b;calcHD();});
+ Object.values(upd).forEach(f=>f());
+}
+const rho=0.0175;
+function calcVD(){const L=+$('#vdL').value||0,I=(+$('#vdI').value||0)/1000,S=+$('#vdS').value,U=+$('#vdU').value;
+ const dU=rho*2*L*I/S,rem=U-dU,p=dU/U*100;
+ let v=p<=5?['v-ok','Отлично: укладывается в 5 %']:p<=10?['v-md','Внимание: на границе — проверьте паспорт устройства']:['v-bad','Много: увеличивайте сечение или сокращайте линию'];
+ $('#vdRes').innerHTML=`<div class="big">ΔU = ${dU.toFixed(2)} В</div><div class="row"><span>на устройстве</span><b>${rem.toFixed(2)} В из ${U} В</b></div><div class="row"><span>в процентах</span><b>${p.toFixed(1)} %</b></div><div class="verdict ${v[0]}">${v[1]}</div>`;}
+function calcHD(){const N=+$('#hdN').value||0,B=+$('#hdB').value||0,D=+$('#hdD').value||0;
+ const gb=N*B*3600*24*D/8/1024,tb=gb/1024;
+ const opt=[4,6,8,10,12,16,20];const rec=opt.find(x=>x>=tb)||Math.ceil(tb);
+ $('#hdRes').innerHTML=`<div class="big">${tb>=1?tb.toFixed(2)+' ТБ':Math.round(gb)+' ГБ'}</div><div class="row"><span>суммарный поток</span><b>${(N*B).toFixed(1)} Мбит/с</b></div><div class="verdict v-ok">Ближайший подходящий накопитель — ${rec} ТБ (surveillance-серия)</div>`;}
+function calcAKB(){const P=+$('#akP').value||0,t=+$('#akT').value||0,U=+$('#akU').value;
+ const C=P*t/(U*0.8)*1.25;const std=[7,12,17,26,40,65,100];const rec=std.find(x=>x>=C)||Math.ceil(C/100)*100;
+ $('#akRes').innerHTML=`<div class="big">≈ ${Math.ceil(C)} А·ч</div><div class="row"><span>энергия за время автономии</span><b>${(P*t).toFixed(0)} Вт·ч</b></div><div class="verdict v-ok">Ближайший стандартный АКБ — ${rec} А·ч</div>`;}
+function calcDET(){const L=+$('#deL').value||0,Wd=+$('#deW').value||0,a=+$('#deT').value;
+ const nx=Math.max(1,Math.ceil(L/a)),ny=Math.max(1,Math.ceil(Wd/a)),n=nx*ny;
+ $('#deRes').innerHTML=`<div class="big">${n} шт</div><div class="row"><span>сетка</span><b>${nx} × ${ny} (шаг до ${a} м)</b></div><div class="row"><span>при алгоритме В (×2 датчика)</span><b>${n*2} шт</b></div><div class="verdict v-md">От стен — не более ${a/2} м; финальная раскладка — по плану с учётом балок и вентиляции</div>`;}
+function calcRS(){const L=+$('#rsL').value||0,S=+$('#rsS').value;
+ const R=rho*2*L/S;
+ let v=R<30?['v-ok','Низкое сопротивление — ок для большинства приборов']:R<60?['v-md','Приемлемо, но сверьте лимит в паспорте ПКП']:['v-bad','Высокое: берите большее сечение или укорачивайте линию'];
+ $('#rsRes').innerHTML=`<div class="big">${R.toFixed(1)} Ом</div><div class="row"><span>одна жила</span><b>${(R/2).toFixed(1)} Ом</b></div><div class="verdict ${v[0]}">${v[1]}</div>`;}
+function renderInfo(){
+ $('#scr-info').innerHTML=`
+ <h2 class="sec">Избранное</h2><div class="card" id="infofavs"></div>
+ <h2 class="sec">Кабели слаботочных систем</h2>
+ <div class="card" data-fid="info:cables" data-ctitle="Кабели слаботочных систем"><div class="chead"><h3>Марки и назначение</h3><button class="favbtn rp" data-fid="info:cables">${HEART}</button></div><div class="cbody">${T(['Марка','Назначение','Примечание'],CABLES)}</div></div>
+ <div class="card" data-fid="info:resist" data-ctitle="Сопротивление медных жил"><div class="chead"><h3>Сопротивление медных жил, Ом/км</h3><button class="favbtn rp" data-fid="info:resist">${HEART}</button></div><div class="cbody">${T(['Сечение, мм²','Жила','Петля (2 жилы)'],RESIST)}${N('ρ меди ≈ 0,0175 Ом·мм²/м. Для линий ДПЛС и шлейфов считайте полное сопротивление петли и падение питания — калькулятор в разделе «Расчёт».')}</div></div>
+ <h2 class="sec">Нормативная база</h2>
+ <div class="card" data-fid="info:norms" data-ctitle="Нормативные документы"><div class="chead"><h3>Основные документы</h3><button class="favbtn rp" data-fid="info:norms">${HEART}</button></div><div class="cbody">${T(['Документ','О чём'],NORMS)}${W('Перед проектированием проверяйте актуальную редакцию и изменения — документы обновляются.')}</div></div>
+ <h2 class="sec">Глоссарий</h2>
+ <div class="card" data-fid="info:gloss" data-ctitle="Глоссарий слаботочника"><div class="chead"><h3>Термины</h3><button class="favbtn rp" data-fid="info:gloss">${HEART}</button></div><div class="cbody"><dl class="gloss">${GLOSS.map(g=>`<dt>${g[0]}</dt><dd>${g[1]}</dd>`).join('')}</dl></div></div>
+ <h2 class="sec">О приложении</h2>
+ <div class="card" data-fid="info:about" data-ctitle="О приложении"><div class="cbody">
+ <p>«Слаботочка PRO» — офлайн-справочник для проектировщиков и монтажников слаботочных систем. Работает без сети, все разделы, схемы и калькуляторы внутри одного файла.</p>
+ ${P('Числовые значения приведены по действующим редакциям СП/ГОСТ для быстрой ориентировки. В проекте всегда сверяйтесь с актуальной редакцией документа и паспортами оборудования.')}
+ </div></div>`;
+ renderFavViews();refreshFavBtns($('#scr-info'));
+}
+function renderFavViews(){
+ const list=[...FAVS].map(f=>FAVMETA[f]).filter(Boolean);
+ const html=list.length?list.map(m=>`<div class="favitem" data-goto="${m.fid}"><span class="dot" style="background:${m.color}"></span><span class="t">${m.title}</span><button class="rm" data-rm="${m.fid}">✕</button></div>`).join(''):`<div class="empty">${$('#homefavs')?'Отмечайте карточки сердечком — они соберутся здесь. Пока пусто.':'Пусто.'}</div>`;
+ const h=$('#homefavs'),i=$('#infofavs');
+ if(h)h.innerHTML=html; if(i)i.innerHTML=html;
+ $$('.favitem').forEach(el=>el.onclick=e=>{if(e.target.dataset.rm){toggleFav(e.target.dataset.rm);return;}gotoFav(el.dataset.goto);});
+ const fc=$('#favcount');fc.textContent=list.length;fc.style.display=list.length?'flex':'none';
+}
+
+/* ============ ИНДЕКС ПОИСКА ============ */
+function buildIndex(){
+ INDEX.length=0;
+ SYSTEMS.forEach(s=>s.tabs.forEach(t=>{
+   const d=document.createElement('div');d.innerHTML=t.cards.map((c,j)=>card(`${s.id}:${t.id}:${j}`,c[0],c[1])).join('');
+   d.querySelectorAll('.card').forEach(c=>{
+     const fid=c.dataset.fid,title=c.dataset.ctitle,text=c.innerText.replace(/\s+/g,' ');
+     INDEX.push({fid,title,text,type:'sys',sys:s.id,tab:t.id,tag:`${s.tag} · ${t.label}`,color:s.color});
+     FAVMETA[fid]={fid,title,tag:s.tag,color:s.color};
+   });
+ }));
+ SCHEMES.forEach(sc=>{const s=sysById(sc.sys);const d=document.createElement('div');d.innerHTML=sc.svg;
+   const text=(sc.title+' '+sc.cap+' '+d.textContent).replace(/\s+/g,' ');
+   INDEX.push({fid:sc.id,title:sc.title,text,type:'scheme',tag:s.tag+' · схема',color:s.color});
+   FAVMETA[sc.id]={fid:sc.id,title:sc.title,tag:'Схема',color:s.color};});
+ [['info:cables','Кабели слаботочных систем'],['info:resist','Сопротивление медных жил'],['info:norms','Нормативные документы'],['info:gloss','Глоссарий слаботочника'],['info:about','О приложении']].forEach(([fid,t])=>{FAVMETA[fid]={fid,title:t,tag:'Справочное',color:'#6f8bff'};});
+ [['info:cables',CABLES.map(c=>c.join(' ')).join(' '),'Кабели слаботочных систем'],
+  ['info:resist',RESIST.map(r=>r.join(' ')).join(' '),'Сопротивление медных жил'],
+  ['info:norms',NORMS.map(n=>n.join(' ')).join(' '),'Нормативные документы'],
+  ['info:gloss',GLOSS.map(g=>g.join(' — ')).join(' '),'Глоссарий слаботочника']].forEach(([fid,text,title])=>INDEX.push({fid,title,text,type:'info',tag:'Справочное',color:'#6f8bff'}));
+}
+function openSearch(){$('#searchov').classList.add('on');setTimeout(()=>$('#sinput').focus(),80);}
+function closeSearch(){$('#searchov').classList.remove('on');$('#sinput').value='';$('#sres').innerHTML='<div class="empty" style="padding:14px">Введите запрос — ищем по всем разделам, схемам и нормам.</div>';}
+function runSearch(q){
+ q=q.trim().toLowerCase();const box=$('#sres');
+ if(q.length<2){box.innerHTML='<div class="empty" style="padding:14px">Минимум 2 символа.</div>';return;}
+ const res=INDEX.filter(it=>(it.title+' '+it.text).toLowerCase().includes(q)).slice(0,30);
+ if(!res.length){box.innerHTML='<div class="empty" style="padding:14px">Ничего не найдено. Попробуйте: «датчик», «FRLS», «PoE», «СП 484».</div>';return;}
+ box.innerHTML=res.map((r,i)=>{
+   const idx=r.text.toLowerCase().indexOf(q);
+   const snip=idx>=0?'…'+r.text.slice(Math.max(0,idx-40),idx+q.length+70).replace(new RegExp(q,'gi'),m=>`<mark>${m}</mark>`)+'…':r.text.slice(0,90)+'…';
+   return `<div class="sitem rp" data-i="${i}"><span class="tag" style="color:${r.color}">${r.tag}</span><b>${r.title}</b><span>${snip}</span></div>`;
+ }).join('');
+ box.querySelectorAll('.sitem').forEach(el=>el.onclick=()=>{const r=res[+el.dataset.i];closeSearch();gotoFav(r.fid,r);});
+}
+function gotoFav(fid,meta){
+ const m=FAVMETA[fid]||meta||{};
+ if(fid.startsWith('sch-')){showScreen('schemes');setTimeout(()=>focus(fid),80);return;}
+ if(fid.startsWith('info:')){showScreen('info');setTimeout(()=>focus(fid),80);return;}
+ const [sys,tab]=fid.split(':');
+ showDetail(sys);showScreen('detail');
+ setTimeout(()=>{
+   const btn=$(`#scr-detail .tab[data-tab="${tab}"]`);if(btn)btn.click();
+   setTimeout(()=>focus(fid),60);
+ },80);
+}
+function focus(fid){const el=document.querySelector(`[data-fid="${fid}"]`);if(!el)return;el.scrollIntoView({behavior:'smooth',block:'center'});el.classList.remove('flash');void el.offsetWidth;el.classList.add('flash');}
+
+/* ============ НАВИГАЦИЯ ============ */
+function showScreen(name){
+ $$('.screen').forEach(s=>s.classList.remove('on'));
+ $('#scr-'+name).classList.add('on');
+ $$('.nbtn').forEach(b=>b.classList.toggle('on',b.dataset.scr===name||(name==='detail'&&b.dataset.scr==='systems')));
+ $('#main').scrollTop=0;reveal();
+}
+function showDetail(id){renderDetail(id);showScreen('detail');}
+function goCalc(cid){showScreen('calc');setTimeout(()=>{const el=$('#c-'+cid);if(el)el.scrollIntoView({behavior:'smooth',block:'start'});},80);}
+
+/* ============ ИЗБРАННОЕ ============ */
+function toggleFav(fid){
+ if(FAVS.has(fid)){FAVS.delete(fid);toast('Удалено из избранного');}else{FAVS.add(fid);toast('Добавлено в избранное ♥');}
+ try{localStorage.setItem('slava_favs',JSON.stringify([...FAVS]))}catch(e){}
+ refreshFavBtns(document);renderFavViews();
+}
+function refreshFavBtns(root){
+ root.querySelectorAll('.favbtn').forEach(b=>{b.classList.toggle('on',FAVS.has(b.dataset.fid));});
+}
+document.addEventListener('click',e=>{
+ const b=e.target.closest('.favbtn');if(b){b.classList.remove('pop');void b.offsetWidth;b.classList.add('pop');toggleFav(b.dataset.fid);}
+});
+
+/* ============ ЭФФЕКТЫ ============ */
+document.addEventListener('pointerdown',e=>{
+ const el=e.target.closest('.rp');if(!el)return;
+ const r=document.createElement('span');r.className='ripple';
+ const rect=el.getBoundingClientRect(),d=Math.max(rect.width,rect.height);
+ r.style.width=r.style.height=d+'px';r.style.left=(e.clientX-rect.left-d/2)+'px';r.style.top=(e.clientY-rect.top-d/2)+'px';
+ el.style.position=el.style.position||'relative';el.style.overflow='hidden';
+ el.appendChild(r);setTimeout(()=>r.remove(),520);
+});
+let obs;
+function reveal(){
+ if(obs)obs.disconnect();
+ obs=new IntersectionObserver(es=>es.forEach(x=>{if(x.isIntersecting){x.target.classList.add('in');obs.unobserve(x.target);}}),{threshold:.06});
+ $$('.rv:not(.in)').forEach(el=>obs.observe(el));
+}
+function tickClock(){const d=new Date();$('#clock').textContent=String(d.getHours()).padStart(2,'0')+':'+String(d.getMinutes()).padStart(2,'0');}
+$('#btnSearch').onclick=openSearch;
+$('#btnSrchClose').onclick=closeSearch;
+$('#searchov').addEventListener('click',e=>{if(e.target.id==='searchov')closeSearch();});
+$('#sinput').addEventListener('input',e=>runSearch(e.target.value));
+$('#btnFavTop').onclick=()=>{showScreen('info');setTimeout(()=>$('#infofavs')&&$('#infofavs').scrollIntoView({behavior:'smooth'}),80);};
+$$('#bnav .nbtn').forEach(b=>b.onclick=()=>showScreen(b.dataset.scr));
+
+/* ============ СТАРТ ============ */
+renderHome();renderSystems();renderSchemes();renderCalc();renderInfo();buildIndex();
+refreshFavBtns(document);reveal();tickClock();setInterval(tickClock,10000);
+</script>
+</body>
+</html>
