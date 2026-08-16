@@ -1,0 +1,4 @@
+<IfModule mod_mime.c>
+  AddType image/png .png
+  AddType application/manifest+json .webmanifest
+</IfModule>
