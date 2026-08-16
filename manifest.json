@@ -1,27 +1,41 @@
 {
-  "id": "./",
+  "id": "/index.html",
   "name": "Слаботочка PRO — справочник слаботочных систем",
   "short_name": "Слаботочка",
-  "description": "Офлайн-справочник проектировщика и монтажника: АПС, СОУЭ, АУПТ, дымоудаление, ОПС и периметр, СКУД, видеонаблюдение, диспетчеризация. Схемы, калькуляторы, нормы СП и ГОСТ.",
+  "description": "Офлайн-справочник проектировщика и монтажника: АПС, СОУЭ, АУПТ, ДУ, ОПС, СКУД, CCTV, АСУЗ. Схемы, калькуляторы, нормы СП и ГОСТ.",
   "lang": "ru",
   "dir": "ltr",
-  "start_url": "./index.html",
-  "scope": "./",
+  "start_url": "/index.html",
+  "scope": "/",
   "display": "standalone",
   "orientation": "portrait",
   "theme_color": "#0d1117",
   "background_color": "#0d1117",
   "categories": ["productivity", "education", "utilities"],
   "icons": [
-    { "src": "icons/icon-192.png", "sizes": "192x192", "type": "image/png", "purpose": "any" },
-    { "src": "icons/icon-512.png", "sizes": "512x512", "type": "image/png", "purpose": "any" },
-    { "src": "icons/icon-maskable-512.png", "sizes": "512x512", "type": "image/png", "purpose": "maskable" },
-    { "src": "icon.svg", "sizes": "any", "type": "image/svg+xml", "purpose": "any" }
-  ],
-  "shortcuts": [
-    { "name": "Системы", "short_name": "Системы", "url": "./index.html#systems", "icons": [{ "src": "icons/icon-192.png", "sizes": "192x192" }] },
-    { "name": "Схемы", "short_name": "Схемы", "url": "./index.html#schemes", "icons": [{ "src": "icons/icon-192.png", "sizes": "192x192" }] },
-    { "name": "Калькуляторы", "short_name": "Расчёт", "url": "./index.html#calc", "icons": [{ "src": "icons/icon-192.png", "sizes": "192x192" }] },
-    { "name": "Нормы и кабели", "short_name": "Инфо", "url": "./index.html#info", "icons": [{ "src": "icons/icon-192.png", "sizes": "192x192" }] }
+    {
+      "src": "/icons/icon-192.png",
+      "sizes": "192x192",
+      "type": "image/png",
+      "purpose": "any"
+    },
+    {
+      "src": "/icons/icon-512.png",
+      "sizes": "512x512",
+      "type": "image/png",
+      "purpose": "any"
+    },
+    {
+      "src": "/icons/icon-maskable-192.png",
+      "sizes": "192x192",
+      "type": "image/png",
+      "purpose": "maskable"
+    },
+    {
+      "src": "/icons/icon-maskable-512.png",
+      "sizes": "512x512",
+      "type": "image/png",
+      "purpose": "maskable"
+    }
   ]
 }
